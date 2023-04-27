@@ -20,4 +20,4 @@ Vorschlag von Fr. Lang: VectorGraphik, die sich verändert -> wird nicht im Kurs
 -> Vorgreifen auf die Vorlesung ? -> ES-Module, MIDI, WebAudio,WebComponents, Video+Canvas, WebGL
 ->Sich nach Visualisierungsmöglichkeiten umschauen.
 ## Miroboard
-https://miro.com/app/board/uXjVMO8MnH0=/
+https://miro.com/welcomeonboard/amdhZ3IxeDB4RkNiUU9ZWFRQc2RMRGg5MTZTZ2xneWgyS0l5WERVM2JzcUhkZkltcGdjYzlqNzZjb0hMU0FuMnwzMDc0NDU3MzU3OTY4MDMwMzI1fDI=?share_link_id=339703204938
