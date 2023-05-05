@@ -1,0 +1,23 @@
+{
+  "name": "mm-audio-videotechnik",
+  "version": "1.0.0",
+  "description": "Projekt eines DJ-Visualizers für AVT",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "live-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Xoritzium/MM-Audio-Videotechnik.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Xoritzium/MM-Audio-Videotechnik/issues"
+  },
+  "homepage": "https://github.com/Xoritzium/MM-Audio-Videotechnik#readme",
+  "dependencies": {
+    "live-server": "^1.2.2"
+  }
+}
