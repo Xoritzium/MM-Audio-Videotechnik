@@ -19,5 +19,8 @@
   "homepage": "https://github.com/Xoritzium/MM-Audio-Videotechnik#readme",
   "dependencies": {
     "live-server": "^1.2.2"
+  },
+  "devDependencies": {
+    "jsdoc": "^4.0.2"
   }
 }

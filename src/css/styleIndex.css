@@ -1,5 +1,363 @@
-﻿
+﻿:root {
+    --areaTopHeight: 250px;
+    --buttonColor: white;
+    --buttonHoverColor: #a7a4a4;
+    --green: rgb(36, 104, 0);
+    --greenHighlight: rgb(21, 255, 0);
+    --black: black;
+    --white: white;
+    --grey: rgb(70, 70, 70);
+    --shadow: 0px 0px 10px var(--greenHighlight);
+    --shadowHover: 0px 0px 20px var(--greenHighlight);
+    --areaHoverColor: rgb(32, 32, 32);
+    --controlHoverColor: rgb(56, 56, 56);
+}
 
-h1{
-    color: orangered;
+* {
+    font-family: sans-serif;
+}
+
+body {
+    margin: 0;
+}
+
+.container {
+    background: linear-gradient(270deg, var(--black) 30%,
+            var(--green) 50%, var(--black) 70%);
+}
+
+.areaTop {
+    display: flex;
+    height: var(--areaTopHeight);
+}
+
+.areaAudioA,
+.areaAudioB {
+    width: 50%;
+    padding: 10px;
+    border: 2px solid var(--grey);
+    border-radius: 20px;
+}
+
+.areaAudioA:hover,
+.areaAudioB:hover {
+    background-color: var(--areaHoverColor);
+}
+
+.titleBoxAudioA,
+.titleBoxAudioB {
+    border-radius: 10px;
+    border: 2px solid var(--white);
+    height: 20%;
+    width: 50%;
+    color: white;
+    margin-bottom: 2px;
+    display: flex;
+    align-items: center;
+}
+
+.titleAudioA,
+.titleAudioB {
+    font-size: 25px;
+    margin-left: 5px;
+}
+
+.displayBoxAudioA,
+.displayBoxAudioB {
+    border-radius: 20px;
+    border: 2px solid var(--white);
+    height: 30%;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.displayAudioA,
+.displayAudioB {
+    font-size: 20px;
+    color: var(--white);
+}
+
+.buttonPlayAudioA,
+.buttonPlayAudioB {
+    border-left: 15px solid var(--buttonColor);
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+}
+
+
+.boxPlayPauseAudioA,
+.boxPlayPauseAudioB {
+    height: 60%;
+    width: 20px;
+    margin-left: 3%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttonPlayAudioA:hover,
+.buttonPlayAudioB:hover {
+    border-left: 15px solid var(--buttonHoverColor);
+}
+
+.buttonPlayAudioA.visible,
+.buttonPlayAudioB.visible {
+    display: none;
+}
+
+.buttonPauseAudioA,
+.buttonPauseAudioB {
+    border-left: 10px solid var(--buttonColor);
+    border-right: 10px solid var(--buttonColor);
+    padding: 0px 1.5px;
+    height: 100%;
+    display: none;
+}
+
+.buttonPauseAudioA:hover,
+.buttonPauseAudioB:hover {
+    border-color: var(--buttonHoverColor);
+}
+
+.buttonPauseAudioA.visible,
+.buttonPauseAudioB.visible {
+    display: inline;
+}
+
+.buttonSkipBackwardAudioA,
+.buttonSkipBackwardAudioB {
+    margin-left: 30%;
+    display: flex;
+}
+
+.buttonSkipBackwardAudioA *,
+.buttonSkipBackwardAudioB * {
+    height: 0;
+    border-right: 25px solid var(--buttonColor);
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+}
+
+.buttonSkipBackwardAudioA:hover *,
+.buttonSkipBackwardAudioB:hover * {
+    border-right: 25px solid var(--buttonHoverColor);
+}
+
+.buttonSkipForwardAudioA,
+.buttonSkipForwardAudioB {
+    margin-left: 5%;
+    display: flex;
+}
+
+.buttonSkipForwardAudioA *,
+.buttonSkipForwardAudioB * {
+    border-left: 25px solid var(--buttonColor);
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+}
+
+.buttonSkipForwardAudioA:hover *,
+.buttonSkipForwardAudioB:hover * {
+    border-left: 25px solid var(--buttonHoverColor);
+}
+
+.dropdownAudioA,
+.dropdownAudioB {
+    margin-left: 25%;
+    height: 70%;
+    position: relative;
+}
+
+.buttonPlaybackSpeedAudioA,
+.buttonPlaybackSpeedAudioB {
+    width: 40px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+    background-color: var(--buttonColor);
+    cursor: pointer;
+}
+
+.buttonPlaybackSpeedAudioA:hover,
+.buttonPlaybackSpeedAudioB:hover {
+    background-color: var(--buttonHoverColor);
+}
+
+.dropdownContentAudioA,
+.dropdownContentAudioB {
+    display: none;
+    background-color: #bbb7b7;
+    width: 30px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    padding: 5px;
+    position: absolute;
+    top: 100%;
+    z-index: 1;
+}
+
+.dropdownContentAudioA a,
+.dropdownContentAudioB a {
+    display: block;
+    padding: 5px;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.dropdownContentAudioA a:hover,
+.dropdownContentAudioB a:hover {
+    background-color: var(--buttonHoverColor);
+}
+
+.dropdownContentAudioA.show,
+.dropdownContentAudioB.show {
+    display: block;
+}
+
+.controlTopAudioA,
+.controlTopAudioB,
+.controlBottomAudioA,
+.controlBottomAudioB {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    border-radius: 50px;
+    margin-bottom: 5px;
+    margin-left: 3%;
+    background: var(--grey);
+    border-radius: 20px;
+}
+
+.controlTopAudioA:hover,
+.controlTopAudioB:hover,
+.controlBottomAudioA:hover,
+.controlBottomAudioB:hover {
+    background-color: var(--controlHoverColor);
+}
+
+.volumeSliderAudioA,
+.volumeSliderAudioB {
+    -webkit-appearance: none;
+    width: 30%;
+    height: 10px;
+    background: var(--white);
+    outline: none;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    border-radius: 5px;
+}
+
+.volumeSliderAudioA::-webkit-slider-thumb,
+.volumeSliderAudioB::-webkit-slider-thumb,
+.volumeSliderAudioA::-moz-range-thumb,
+.volumeSliderAudioB::-moz-range-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: var(--grey);
+    cursor: pointer;
+    /* box-shadow: var(--shadow); */
+}
+
+.volumeSliderAudioB:hover::-webkit-slider-thumb,
+.volumeSliderAudioA:hover::-moz-range-thumb,
+.volumeSliderAudioA:hover::-webkit-slider-thumb,
+.volumeSliderAudioB:hover::-moz-range-thumb {
+    background: var(--areaHoverColor);
+    box-shadow: var(--shadow);
+}
+
+.areaCenter {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.boxCrossfader {
+    margin-top: 80px;
+}
+
+.crossfader {
+    -webkit-appearance: none;
+    height: 20px;
+    background: transparent;
+    outline: none;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    border: 2px solid var(--white);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+}
+
+.crossfader::-webkit-slider-thumb,
+.crossfader::-moz-range-thumb {
+    width: 25px;
+    height: 50px;
+    border-radius: 0;
+    background: var(--grey);
+    cursor: pointer;
+    border-color: var(--white);
+    box-shadow: var(--shadow);
+}
+
+.crossfader:hover::-webkit-slider-thumb,
+.crossfader:hover::-moz-range-thumb {
+    background: var(--areaHoverColor);
+    box-shadow: var(--shadowHover);
+
+}
+
+.buttonFX {
+    height: 50px;
+    width: 50px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: larger;
+    background-color: var(--buttonColor);
+    cursor: pointer;
+    margin-top: 50px;
+    box-shadow: var(--shadow);
+}
+
+.buttonFX:hover {
+    background-color: var(--buttonHoverColor);
+    box-shadow: var(--shadowHover);
+}
+
+.fxMenu {
+    display: none;
+    width: 400px;
+    height: 400px;
+    background-color: rgb(24, 49, 23);
+    top: 120%;
+    border-radius: 5px;
+    position: absolute;
+    box-shadow: var(--shadow);
+    z-index: 1;
+}
+
+.areaBottom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - var(--areaTopHeight));
+}
+
+.areaVisualizerWindow {
+    background: var(--grey);
+    opacity: 0.9;
+    border-radius: 80px;
+    width: 95%;
+    height: 90%;
 }

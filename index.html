@@ -1,14 +1,109 @@
 ﻿<!DOCTYPE html>
-
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="src/css/styleIndex.css" />
-
-
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" type='text/css' media='screen' href="src/css/styleIndex.css">
     <title>AVT-DJ-Visualizer</title>
 </head>
 <body>
-    <h1>hier kommt krasser scheiß!</h1>
+    <div class="container">
+        <div class="areaTop">
+            <!-- ////////////////////// audio a /////////// -->
+            <div class="areaAudioA">
+                <div class="titleBoxAudioA">
+                    <div class="titleAudioA">Title</div>
+                </div>
+                <div class="displayBoxAudioA">
+                    <div class="displayAudioA">drag & drop your audio here</div>
+                </div>
+                <div class="controlBoxAudioA">
+                    <div class="controlTopAudioA">
+                        <div class="boxPlayPauseAudioA">
+                            <a class="buttonPlayAudioA" href="#"></a>
+                            <a class="buttonPauseAudioA" href="#"></a>
+                        </div>
+                        <a class="buttonSkipBackwardAudioA" href="#">
+                            <div title="arrow"></div>
+                            <div title="arrow"></div>
+                        </a>
+                        <a class="buttonSkipForwardAudioA" href="#">
+                            <div title="arrow"></div>
+                            <div title="arrow"></div>
+                        </a>
+                        <div class="dropdownAudioA">
+                            <div class="buttonPlaybackSpeedAudioA">1x</div>
+                            <div class="dropdownContentAudioA">
+                                <a href="#" data-playbackSpeed="1">1x</a>
+                                <a href="#" data-playbackSpeed="2">2x</a>
+                                <a href="#" data-playbackSpeed="4">4x</a>
+                                <a href="#" data-playbackSpeed="8">8x</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="controlBottomAudioA">
+                        <input type="range" min="0" max="100" value="100" class="volumeSliderAudioA">
+                    </div>
+                </div>
+            </div>
+            <!-- ////////////////////// crossfader + fx menu /////////// -->
+            <div class="areaCenter">
+                <div class="boxCrossfader">
+                    <input type="range" min="0" max="100" value="50" class="crossfader">
+                </div>
+                <div class="buttonFX">FX</div>
+                <div class="fxMenu"></div>
+            </div>
+            <!-- ////////////////////// audio b /////////// -->
+            <div class="areaAudioB">
+                <div class="titleBoxAudioB">
+                    <div class="titleAudioB">Title</div>
+                </div>
+                <div class="displayBoxAudioB">
+                    <div class="displayAudioB">drag & drop your audio here</div>
+                </div>
+                <div class="controlBoxAudioB">
+                    <div class="controlTopAudioB">
+                        <div class="boxPlayPauseAudioB">
+                            <a class="buttonPlayAudioB" href="#"></a>
+                            <a class="buttonPauseAudioB" href="#"></a>
+                        </div>
+                        <a class="buttonSkipBackwardAudioB" href="#">
+                            <div title="arrow"></div>
+                            <div title="arrow"></div>
+                        </a>
+                        <a class="buttonSkipForwardAudioB" href="#">
+                            <div title="arrow"></div>
+                            <div title="arrow"></div>
+                        </a>
+                        <div class="dropdownAudioB">
+                            <div class="buttonPlaybackSpeedAudioB">1x</div>
+                            <div class="dropdownContentAudioB">
+                                <a href="#" data-playbackSpeed="1">1x</a>
+                                <a href="#" data-playbackSpeed="2">2x</a>
+                                <a href="#" data-playbackSpeed="4">4x</a>
+                                <a href="#" data-playbackSpeed="8">8x</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="controlBottomAudioB">
+                        <input type="range" min="0" max="100" value="100" class="volumeSliderAudioB">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- ////////////////////// visualizer /////////// -->
+        <div class="areaBottom">
+            <div class="areaVisualizerWindow">
+                <canvas id="visualizer" width="100" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+    <div>
+    </div>
+    <div>
+    </div>
+    <script type="module" defer src='./src/js/index.js'></script>
 </body>
 </html>
