@@ -12,6 +12,8 @@ const dropdownContentAudioA = document.querySelector('.dropdownContentAudioA');
 const buttonPlaybackSpeedAudioA = document.querySelector('.buttonPlaybackSpeedAudioA');
 const playbackSpeedAudioA = dropdownContentAudioA.querySelectorAll('a');
 
+const dragNdropAudioA = document.querySelector('.displayBoxAudioA');
+
 export const volumeSliderAudioA = document.querySelector('.volumeSliderAudioA');
 
 // -------------------------------------- buttons audio B
@@ -40,6 +42,11 @@ buttonSkipBackwardAudioA.addEventListener('click', audioController.skipBackwardA
 buttonSkipForwardAudioA.addEventListener('click', audioController.skipForwardAudioA);
 buttonPlaybackSpeedAudioA.addEventListener('click', toggleDropdownAudioA);
 volumeSliderAudioA.addEventListener('input', audioController.changeVolumeAudioA);
+//dragNdrop
+
+dragNdropAudioA.addEventListener('dragover', audioController.allowDropForAudio);
+dragNdropAudioA.addEventListener('drop', audioController.getAudioForA);
+
 
 // -------------------------------------- event listeners for buttons audio B
 buttonPlayAudioB.addEventListener('click', audioController.playAudioB);
@@ -152,3 +159,6 @@ playbackSpeedAudioB.forEach(
         });
     }
 );
+
+
+
