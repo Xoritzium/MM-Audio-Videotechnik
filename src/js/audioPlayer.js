@@ -5,7 +5,7 @@ class AudioPlayer {
     constructor(url) {
 
         //setup web Audio API
-        this.audioContext = new window.AudioContext();
+        this.audioContext = new AudioContext();
         this.audioVolumeGainNode = this.audioContext.createGain();
         this.crossFaderGainNode = this.audioContext.createGain();
         this.audioVolume = 10;
@@ -15,17 +15,17 @@ class AudioPlayer {
             alert("Web audio API not supported!");
         }
 
-
-        this.request = new XMLHttpRequest();
-        this.request.open('GeT', url, true);
-        this.request.responseType = 'arraybuffer';
-        this.request.onload = () => {
-
-            this.recieveAudio();
-        }
-
-        this.request.send();
-
+        /*
+                this.request = new XMLHttpRequest();
+                this.request.open('GeT', url, true);
+              this.request.responseType = 'arraybuffer';
+                this.request.onload = () => {
+        
+                    this.recieveAudio();
+                }
+        
+                this.request.send();
+        */
     }
 
 
@@ -42,6 +42,22 @@ class AudioPlayer {
         this.audioBuffer.loop = true;
     }
 
+    setNewAudio(file) {
+        console.log("new audio recieved!");
+        console.log(file.type);
+        console.log(file.name);
+        let data;
+        let reader = new FileReader();
+        reader.addEventListener('loadend', function () {
+            reader.onload = () =>{
+                data = e.target.result; 
+            }
+        });
+        reader.readAsArrayBuffer(file);
+        this.audioContext.decodeAudioData(file).then(
+            this.setBuffer.bind(this)
+        )
+    }
 
     /*
      constructor(audioData){
@@ -104,6 +120,12 @@ class AudioPlayer {
     handleCrossFader(val) {
         this.crossFaderGainNode.gain.value = val / 100;
     }
+
+    applyNewPlayRate(val) {
+        this.audioBufferSource.playbackRate.value = val;
+    }
+
+
 
 }
 export default AudioPlayer;

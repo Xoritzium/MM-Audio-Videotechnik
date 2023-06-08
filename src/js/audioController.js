@@ -61,7 +61,9 @@ export function skipForwardAudioA() {
  */
 export function changePlaybackSpeedAudioA(newPlaybackSpeedAudioA) {
     // audio control
+    console.log("new speed: " + newPlaybackSpeedAudioA);
     audioAPlaybackSpeed = newPlaybackSpeedAudioA;
+    audioA.applyNewPlayRate(audioAPlaybackSpeed);
     console.log("playback speed audio a changed to: " + audioAPlaybackSpeed);
 }
 /**
@@ -74,7 +76,7 @@ export function changeVolumeAudioA(event) {
     // audio control
     let audioAVolume = value / 2;
     audioA.changeVolume(audioAVolume);
-   // console.log("volume audio a changed to: " + audioAVolume / 100);
+    // console.log("volume audio a changed to: " + audioAVolume / 100);
 }
 
 
@@ -86,7 +88,7 @@ export function changeVolumeAudioA(event) {
 export function crossfade(event) {
     const value = event.target.value / 2;
     // audio control
-//    console.log("crossfader position: " + userInterface.crossfader.value)
+    //    console.log("crossfader position: " + userInterface.crossfader.value)
     audioA.changeVolume(-1 * value + 50);
     audioB.changeVolume(value);
 }
@@ -138,6 +140,7 @@ export function changePlaybackSpeedAudioB(newPlaybackSpeedAudioB) {
     // audio control
     audioBPlaybackSpeed = newPlaybackSpeedAudioB;
     console.log("playback speed audio b changed to: " + audioBPlaybackSpeed);
+    audioB.applyNewPlayRate(audioBPlaybackSpeed);
 }
 /**
  * Changes the volume for audio B.
@@ -148,13 +151,14 @@ export function changePlaybackSpeedAudioB(newPlaybackSpeedAudioB) {
 export function changeVolumeAudioB(event) {
     const value = event.target.value // because gainNode expects values between 0,1
     audioBVolume = value / 2;
- //   console.log("volume audio b changed to: " + audioBVolume);
+    //   console.log("volume audio b changed to: " + audioBVolume);
     audioB.changeVolume(value);
 }
 
 
 export function allowDropForAudio(event) {
     event.preventDefault();
+  //  event.stopPropagation();
 }
 
 
@@ -174,7 +178,7 @@ export function getAudioForA(event) {
     data = event.dataTransfer.items[0];
     console.log("kind: " + data.kind);
     console.log("tpye: " + data.type);
-  //  audioA = new AudioPlayer(data);
+    //  audioA = new AudioPlayer(data);
     /** -> rumprobiere.
      * 
     let xhr = new XMLHttpRequest();
@@ -199,6 +203,19 @@ export function getAudioForA(event) {
 /**
  * get drop from audio B
  */
-export function getAudioForB(event) {
+export function getAudioForB(e) {
+    e.preventDefault();
+    const droppedFile = e.dataTransfer.files[0];
+    const type = droppedFile.type;
+    console.log("type: " + type);
+    console.log("name of file: " + droppedFile.name);
+    audioB.setNewAudio(droppedFile);
+    if(type != "audio/mpeg"){
+        alert("just .mp3 files are allowed");
+        return;
+    }
 
-}
+
+    }
+  
+

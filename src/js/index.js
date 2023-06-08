@@ -13,6 +13,7 @@ const buttonPlaybackSpeedAudioA = document.querySelector('.buttonPlaybackSpeedAu
 const playbackSpeedAudioA = dropdownContentAudioA.querySelectorAll('a');
 
 const dragNdropAudioA = document.querySelector('.displayBoxAudioA');
+const dragNdropAudioB = document.querySelector('.displayBoxAudioB');
 
 export const volumeSliderAudioA = document.querySelector('.volumeSliderAudioA');
 
@@ -46,6 +47,9 @@ volumeSliderAudioA.addEventListener('input', audioController.changeVolumeAudioA)
 
 dragNdropAudioA.addEventListener('dragover', audioController.allowDropForAudio);
 dragNdropAudioA.addEventListener('drop', audioController.getAudioForA);
+
+dragNdropAudioB.addEventListener('dragover', audioController.allowDropForAudio, false);
+dragNdropAudioB.addEventListener('drop', audioController.getAudioForB, false);
 
 
 // -------------------------------------- event listeners for buttons audio B
