@@ -69,6 +69,7 @@ class AudioPlayer {
      * actual audio stuff
      */
     playAudio() {
+        console.log("play1");
         if (this.audioContext.state === 'suspended') {
             this.audioContext.resume();
         } else {
@@ -101,11 +102,8 @@ class AudioPlayer {
     }
 
     handleCrossFader(val) {
-
         this.crossFaderGainNode.gain.value = val / 100;
-
     }
-
 
 }
 export default AudioPlayer;
