@@ -252,8 +252,7 @@ body {
     border-radius: 5px;
 }
 
-.volumeSliderAudioA::-webkit-slider-thumb,
-.volumeSliderAudioB::-webkit-slider-thumb,
+/* Firefox */
 .volumeSliderAudioA::-moz-range-thumb,
 .volumeSliderAudioB::-moz-range-thumb {
     -webkit-appearance: none;
@@ -261,15 +260,33 @@ body {
     width: 25px;
     height: 25px;
     border-radius: 50%;
+    border: 1px solid var(--white);
     background: var(--grey);
     cursor: pointer;
-    /* box-shadow: var(--shadow); */
 }
 
-.volumeSliderAudioB:hover::-webkit-slider-thumb,
+/* Chrome, Edge */
+.volumeSliderAudioA::-webkit-slider-thumb,
+.volumeSliderAudioB::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 1px solid var(--white);
+    background: var(--grey);
+    cursor: pointer;
+}
+
+/* Firefox */
 .volumeSliderAudioA:hover::-moz-range-thumb,
-.volumeSliderAudioA:hover::-webkit-slider-thumb,
 .volumeSliderAudioB:hover::-moz-range-thumb {
+    background: var(--areaHoverColor);
+    box-shadow: var(--shadow);
+}
+
+/* Chrome, Edge */
+.volumeSliderAudioB:hover::-webkit-slider-thumb,
+.volumeSliderAudioA:hover::-webkit-slider-thumb {
     background: var(--areaHoverColor);
     box-shadow: var(--shadow);
 }
@@ -298,22 +315,40 @@ body {
     border-right: 5px solid transparent;
 }
 
-.crossfader::-webkit-slider-thumb,
+/* Firefox */
 .crossfader::-moz-range-thumb {
+    -webkit-appearance: none;
     width: 25px;
     height: 50px;
     border-radius: 0;
     background: var(--grey);
     cursor: pointer;
-    border-color: var(--white);
+    border: 1px solid var(--white);
     box-shadow: var(--shadow);
 }
 
-.crossfader:hover::-webkit-slider-thumb,
+/* Chrome, Edge */
+.crossfader::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 25px;
+    height: 50px;
+    border-radius: 0;
+    background: var(--grey);
+    cursor: pointer;
+    border: 1px solid var(--white);
+    box-shadow: var(--shadow);
+}
+
+/* Firefox */
 .crossfader:hover::-moz-range-thumb {
     background: var(--areaHoverColor);
     box-shadow: var(--shadowHover);
+}
 
+/* Chrome, Edge */
+.crossfader:hover::-webkit-slider-thumb {
+    background: var(--areaHoverColor);
+    box-shadow: var(--shadowHover);
 }
 
 .buttonFX {
@@ -345,7 +380,66 @@ body {
     position: absolute;
     box-shadow: var(--shadow);
     z-index: 1;
+    flex-direction: column;
+    padding-left: 20px;
+    align-items: center;
+    font-size: 20px;
+    color: var(--white);
 }
+
+.fxMenu.show {
+    display: flex;
+}
+
+.line {
+    display: flex;
+    margin-top: 20px;
+}
+
+/* ////////////////////////////////////////////// rounded toggle switch */
+label[class^="switchVisualization"] {
+    position: relative;
+    width: 60px;
+    height: 34px;
+    display: flex;
+    margin-left: 20px;
+    margin-right: 30px;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+/* knob */
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked+.slider {
+    background-color: #2196F3;
+}
+
+input:checked+.slider:before {
+    transform: translateX(26px);
+}
+
+/* //////////////////////////////////////////////////////////////////// */
 
 .areaBottom {
     display: flex;
