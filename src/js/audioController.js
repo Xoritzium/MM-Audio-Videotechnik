@@ -122,7 +122,7 @@ export function changePlaybackSpeedAudioB(newPlaybackSpeedAudioB) {
  */
 export function changeVolumeAudioB(event) {
     const value = event.target.value;
-    // audio control                
+    // audio control
     audioBVolume = value;
     console.log("volume audio b changed to: " + audioBVolume);
 }

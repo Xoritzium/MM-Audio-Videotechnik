@@ -28,10 +28,13 @@ const playbackSpeedAudioB = dropdownContentAudioB.querySelectorAll('a');
 
 export const volumeSliderAudioB = document.querySelector('.volumeSliderAudioB');
 
-// -------------------------------------- cossfader, buttonFX, fx menu
+// -------------------------------------- cossfader, buttonFX, fx menu,
+// -------------------------------------- visualization switches, color pickers
 export const crossfader = document.querySelector(".crossfader");
 const buttonFX = document.querySelector(".buttonFX");
 const fxMenu = document.querySelector(".fxMenu");
+const switches = document.querySelectorAll('.fxMenu input[type="checkbox"]');
+const colorInputs = document.querySelectorAll('.fxMenu input[type="color"]');
 
 // -------------------------------------- event listeners for buttons audio A
 buttonPlayAudioA.addEventListener('click', audioController.playAudioA);
@@ -102,14 +105,14 @@ function closeMenus(event) {
         dropdownContentAudioB.classList.remove('show');
     }
     if (!fxMenu.contains(target) && target !== buttonFX) {
-        fxMenu.style.display = "none";
+        fxMenu.classList.remove('show');
     }
 }
 /**
  * Opens the FX menu.
  */
 function openFXMenu() {
-    fxMenu.style.display = "block";
+    fxMenu.classList.toggle('show');
 }
 /**
  * Closes the FX menu.
@@ -152,3 +155,59 @@ playbackSpeedAudioB.forEach(
         });
     }
 );
+/**
+ * Adds an event listener for all visualization switches.
+ * Retrieves the state of that corresponding switch.
+ */
+switches.forEach(
+    (checkbox, index) => {
+        checkbox.addEventListener('change', () => {
+            if (checkbox.checked) {
+                console.log(`visualization ${index + 1} activated`);
+                // visualization control
+            } else {
+                console.log(`visualization ${index + 1} deactivated`);
+                // visualization control
+            }
+        });
+    });
+/**
+ * Adds an event listener for all color pickers.
+ * Retrieves the corresponding picked color.
+ */
+colorInputs.forEach(
+    (colorInput, index) => {
+        colorInput.addEventListener('input', () => {
+            const color = colorInput.value;
+            console.log(`color for visualization ${index + 1}: ${color}`);
+            // visualization control
+        });
+    });
+// -------------------------------------- fx menu drag control
+fxMenu.addEventListener("mousedown", startDragging);
+window.addEventListener("mouseup", stopDragging);
+window.addEventListener("mousemove", drag);
+
+let isDragging = false;
+let initialX;
+let initialY;
+let offsetX = 0;
+let offsetY = 0;
+
+function startDragging(event) {
+    isDragging = true;
+    initialX = event.clientX - offsetX;
+    initialY = event.clientY - offsetY;
+}
+
+function stopDragging() {
+    isDragging = false;
+}
+
+function drag(event) {
+    if (isDragging) {
+        offsetX = event.clientX - initialX;
+        offsetY = event.clientY - initialY;
+        fxMenu.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+    }
+}
