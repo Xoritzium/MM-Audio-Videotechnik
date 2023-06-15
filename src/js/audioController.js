@@ -11,7 +11,7 @@ export let audioBVolume = 50;
 
 //setup web Audio API
 let audioA = new AudioPlayer("Technobase - Mutter der Mann mit dem Koks ist da .mp3");
-let audioB = new AudioPlayer("Hardwell - Bella Ciao (Hardwell & Maddix Remix).mp3");
+let audioB= new AudioPlayer("Hardwell - Bella Ciao (Hardwell & Maddix Remix).mp3");
 
 if (!window.AudioContext) {
     alert("Web audio API not supported!");
@@ -158,7 +158,7 @@ export function changeVolumeAudioB(event) {
 
 export function allowDropForAudio(event) {
     event.preventDefault();
-  //  event.stopPropagation();
+    //  event.stopPropagation();
 }
 
 
@@ -203,19 +203,17 @@ export function getAudioForA(event) {
 /**
  * get drop from audio B
  */
-export function getAudioForB(e) {
-    e.preventDefault();
-    const droppedFile = e.dataTransfer.files[0];
-    const type = droppedFile.type;
-    console.log("type: " + type);
-    console.log("name of file: " + droppedFile.name);
-    audioB.setNewAudio(droppedFile);
-    if(type != "audio/mpeg"){
-        alert("just .mp3 files are allowed");
-        return;
+export function getAudioForB(event) {
+    event.preventDefault();
+    const files = event.dataTransfer.files;
+    console.log("files dropped: " + files.length);
+    if(files.length > 0){
+        audioB.setNewAudio(files[0]);
+    }else{
+        alert("no audio given");
     }
 
 
-    }
-  
+}
+
 

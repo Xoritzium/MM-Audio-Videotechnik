@@ -14,7 +14,7 @@ class AudioPlayer {
         if (!window.AudioContext) {
             alert("Web audio API not supported!");
         }
-
+        // static read of a Sample audio from given Filepath
         /*
                 this.request = new XMLHttpRequest();
                 this.request.open('GeT', url, true);
@@ -31,6 +31,7 @@ class AudioPlayer {
 
     recieveAudio() {
         this.audioBuffer = this.request.response;
+        //this.request.response
         this.audioContext.decodeAudioData(this.audioBuffer).then(
             this.setBuffer.bind(this)
         )
@@ -40,47 +41,28 @@ class AudioPlayer {
         this.audioBuffer = decodedBuffer;
         this.isReady = true;
         this.audioBuffer.loop = true;
+        // this.playAudio();
     }
 
-    setNewAudio(file) {
-        console.log("new audio recieved!");
-        console.log(file.type);
-        console.log(file.name);
-        let data;
-        let reader = new FileReader();
-        reader.addEventListener('loadend', function () {
-            reader.onload = () =>{
-                data = e.target.result; 
-            }
-        });
-        reader.readAsArrayBuffer(file);
-        this.audioContext.decodeAudioData(file).then(
-            this.setBuffer.bind(this)
-        )
+    setNewAudio(droppedFile) {
+    // neues Audio einlesen geht erst nach reload..
+        if(this.audioBufferSource){
+        this.audioBufferSource.stop();
+        this.audioBufferSource.disconnect();
+
     }
+        // this.pauseAudio();
+        const audioFile = droppedFile;
+        const reader = new FileReader();
+        reader.readAsArrayBuffer(audioFile);
+        // reader.responseType = 'arraybuffer';
 
-    /*
-     constructor(audioData){
-         console.log("audioData recieved AudioPlayer: " + audioData);
-          //setup web Audio API
-          this.audioContext = new window.AudioContext();
-          this.audioVolumeGainNode = this.audioContext.createGain();
-          this.crossFaderGainNode = this.audioContext.createGain();
-         // this.audioVolume = 10;
-         this.audioBufferSource = this.audioContext.createBufferSource();
- 
-             
-             this.audioContext.decodeAudioData(audioData,function(buffer){
-                 audioBuffer.buffer = buffer;
-             });
-         
- 
- 
- 
-     }
- 
- */
-
+        reader.onloadend = () => {
+            this.audioBuffer = reader.result;
+            this.audioContext.decodeAudioData(this.audioBuffer).then(
+                this.setBuffer.bind(this))
+        }
+    }
     /**
      * actual audio stuff
      */
