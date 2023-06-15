@@ -1,4 +1,5 @@
 
+
 class AudioPlayer {
 
     // url will be the file dropped in later
@@ -45,12 +46,7 @@ class AudioPlayer {
     }
 
     setNewAudio(droppedFile) {
-    // neues Audio einlesen geht erst nach reload..
-        if(this.audioBufferSource){
-        this.audioBufferSource.stop();
-        this.audioBufferSource.disconnect();
 
-    }
         // this.pauseAudio();
         const audioFile = droppedFile;
         const reader = new FileReader();
@@ -61,7 +57,9 @@ class AudioPlayer {
             this.audioBuffer = reader.result;
             this.audioContext.decodeAudioData(this.audioBuffer).then(
                 this.setBuffer.bind(this))
+            
         }
+        return audioFile.name;
     }
     /**
      * actual audio stuff
