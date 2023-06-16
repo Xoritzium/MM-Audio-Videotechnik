@@ -45,14 +45,12 @@ export function pauseAudioA() {
  */
 export function skipBackwardAudioA() {
     // audio control
-    console.log('skip backward audio a');
 }
 /**
  * Skips forwad audio A.
- */
+*/
 export function skipForwardAudioA() {
-    // audio control
-    console.log('skip forward audio a');
+    audioA.skipForward();
 }
 /**
  * Changes the playback speed for audio A.

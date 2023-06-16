@@ -57,7 +57,7 @@ class AudioPlayer {
             this.audioBuffer = reader.result;
             this.audioContext.decodeAudioData(this.audioBuffer).then(
                 this.setBuffer.bind(this))
-            
+
         }
         return audioFile.name;
     }
@@ -103,6 +103,11 @@ class AudioPlayer {
 
     applyNewPlayRate(val) {
         this.audioBufferSource.playbackRate.value = val;
+    }
+
+    skipForward() {
+        console.log("currentTime: " + this.audioContext.currentTime);
+        this.audioContext.currentTime += 5;
     }
 
 
