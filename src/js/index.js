@@ -32,6 +32,7 @@ const playbackSpeedAudioB = dropdownContentAudioB.querySelectorAll('a');
 export const volumeSliderAudioB = document.querySelector('.volumeSliderAudioB');
 
 // -------------------------------------- cossfader, buttonFX, fx menu,
+
 // -------------------------------------- visualization switches, color pickers
 export const crossfader = document.querySelector(".crossfader");
 const buttonFX = document.querySelector(".buttonFX");
@@ -221,4 +222,17 @@ function drag(event) {
         offsetY = event.clientY - initialY;
         fxMenu.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
     }
+}
+
+
+//**********Title Change Audio */
+
+export function changeTitleAudioA(newTitle){
+const title = document.querySelector('.titleBoxAudioA');
+title.innerHTML = newTitle;
+}
+
+export function changeTitleAudioB(newTitle){
+    const title = document.querySelector('.titleBoxAudioB');
+    title.innerHTML = newTitle;
 }
