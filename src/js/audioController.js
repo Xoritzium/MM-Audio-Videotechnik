@@ -8,6 +8,9 @@ export let audioAVolume = 50;
 export let audioBPlaying = false;
 export let audioBPlaybackSpeed = 1;
 export let audioBVolume = 50;
+//skip Forward/Backward in seconds
+let skipForwardAmount = 5;
+let skipBackwardAmount = 5;
 
 //setup web Audio API
 let audioA = new AudioPlayer("Technobase - Mutter der Mann mit dem Koks ist da .mp3");
@@ -50,7 +53,7 @@ export function skipBackwardAudioA() {
  * Skips forwad audio A.
 */
 export function skipForwardAudioA() {
-    audioA.skipForward();
+    audioA.skipForward(skipForwardAmount);
 }
 /**
  * Changes the playback speed for audio A.

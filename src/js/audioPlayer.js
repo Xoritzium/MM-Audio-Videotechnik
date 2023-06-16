@@ -10,7 +10,14 @@ class AudioPlayer {
         this.audioVolumeGainNode = this.audioContext.createGain();
         this.crossFaderGainNode = this.audioContext.createGain();
         this.audioVolume = 10;
+        
+        this.analyserNode = this.audioContext.createAnalyser();
+        this.analyserNode.fftSize =2048;
+        this.audioFrequencyDataArrayLength = this.analyserNode.frequencyBinCount;
+        this.frequencyDataArray = new Uint8Array(this.audioFrequencyDataArrayLength);
+        this.analyserNode.getByteFrequencyData(this.frequencyDataArray);
 
+        this.timeStemp = 0;
 
         if (!window.AudioContext) {
             alert("Web audio API not supported!");
@@ -65,21 +72,22 @@ class AudioPlayer {
      * actual audio stuff
      */
     playAudio() {
-        console.log("play1");
+        if(!this.audioBuffer) return;
+        console.log("play");
         if (this.audioContext.state === 'suspended') {
             this.audioContext.resume();
         } else {
             this.audioBufferSource = this.audioContext.createBufferSource();
             this.audioBufferSource.buffer = this.audioBuffer;
-
-            //disconnect
+            
             this.audioBufferSource.disconnect();
+            //disconnect
             //build node tree
             this.audioBufferSource.connect(this.audioVolumeGainNode);
             this.audioVolumeGainNode.connect(this.crossFaderGainNode);
             this.crossFaderGainNode.connect(this.audioContext.destination);
 
-            this.audioBufferSource.start();
+            this.audioBufferSource.start(0);
         }
     }
 
@@ -88,8 +96,6 @@ class AudioPlayer {
         if (this.audioContext.state === 'running') {
             this.audioContext.suspend();
         }
-
-
     }
 
     changeVolume(value) {
@@ -105,10 +111,16 @@ class AudioPlayer {
         this.audioBufferSource.playbackRate.value = val;
     }
 
-    skipForward() {
-        console.log("currentTime: " + this.audioContext.currentTime);
-        this.audioContext.currentTime += 5;
+    skipForward(amount) {
+     
     }
+    // returns the frequency of the current playing song.
+    //make sure to call it every frame !
+    // each array index has a value between 0 and 255.
+    getAudioFrequencyData(){
+        return this.frequencyDataArray;
+    }
+
 
 
 
