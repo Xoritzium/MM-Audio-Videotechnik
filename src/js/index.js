@@ -1,4 +1,5 @@
 import * as audioController from "./audioController.js"
+import * as audioVisualizer from "./audioVisualizer.js"
 
 // -------------------------------------- buttons audio A
 const buttonPlayAudioA = document.querySelector('.buttonPlayAudioA');
