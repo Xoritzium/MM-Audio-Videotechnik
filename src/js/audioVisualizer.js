@@ -70,6 +70,7 @@ function drawLines() {
 
 }
 
+/* wird ersetzt durch die untere, war nur anfang
 function drawPillars() {
     
     analyser.getByteTimeDomainData(dataArray);
@@ -84,7 +85,54 @@ function drawPillars() {
         x += barWidth;
     }
 
+} */
+
+/* Ist die Vollständige drawPillars Funktion, muss bloss angepasst werden
+analyser.fftSize = 128;
+const bufferLength = analyser.frequencyBinCount;
+const dataArray = new Uint8Array(bufferLength);
+const barWidth = canvas.width / bufferLength;
+
+let x = 0;
+function animate() {
+  x = 0;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  analyser.getByteFrequencyData(dataArray);
+  drawVisualizer({
+    bufferLength,
+    dataArray,
+    barWidth
+  });
+  requestAnimationFrame(animate);
 }
+
+function drawVisualizer({ bufferLength, dataArray, barWidth }) {
+  let barHeight;
+  let x = 0;
+
+  for (let i = 0; i < bufferLength / 2; i++) {
+    barHeight = dataArray[i];
+    const red = (i * barHeight) / 10;
+    const green = i * 4;
+    const blue = barHeight / 4 - 12;
+    ctx.fillStyle = `rgb(${red}, ${green}, ${blue})`;
+    ctx.fillRect(
+      canvas.width / 2 - x,
+      canvas.height - barHeight,
+      barWidth,
+      barHeight
+    );
+    ctx.fillRect(
+      canvas.width / 2 + x,
+      canvas.height - barHeight,
+      barWidth,
+      barHeight
+    );
+    x += barWidth;
+  }
+}
+
+animate(); */
 
 
 
