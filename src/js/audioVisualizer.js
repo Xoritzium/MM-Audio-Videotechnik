@@ -32,15 +32,15 @@ function drawLines() {
     canvasCtx.fillStyle = backgroundColor;
     canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
     canvasCtx.lineWidth = 1;
-    canvasCtx.strokeStyle = visualizationColor;
+    canvasCtx.strokeStyle = document.getElementById('colorpickerVisualization1').value;
     canvasCtx.beginPath();
     let sliceWidth = canvas.width * 1.0 / bufferLength;
     let x = 0;
 
     for (let i = 0; i < bufferLength; i++) {
-        console.log("Index: " + i + " // Wert: " + dataArray[i]);
+        //console.log("Index: " + i + " // Wert: " + dataArray[i]);
         let v = dataArray[i] / 128.0;
-        let y = v * canvas.height - 25;
+        let y = v * canvas.height/2 - 25;
         if (i === 0) {
             canvasCtx.moveTo(x, y);
         } else {
@@ -56,8 +56,8 @@ function drawLines() {
     let sliceWidth2 = canvas.width * 1.0 / bufferLength;
     let x2 = 0;
     for (let i = 0; i < bufferLength; i++) {
-        let v = dataArray[i] / 128.0;
-        let y = v * canvas.height - 50;
+        let v = dataArray[i] / 128;
+        let y = v * canvas.height/2 - 50;
         if (i === 0) {
             canvasCtx.moveTo(x2, y);
         } else {

@@ -175,6 +175,11 @@ switches.forEach(
     (checkbox, index) => {
         checkbox.addEventListener('change', () => {
             if (checkbox.checked) {
+                document.querySelectorAll('.fxMenu input[type="checkbox"]:checked')
+                .forEach(activeSwitch => {
+                    if (activeSwitch.getAttribute('id') != checkbox.getAttribute('id'))
+                        activeSwitch.checked = false;
+                });
                 console.log(`visualization ${index + 1} activated`);
                 // visualization control
             } else {
