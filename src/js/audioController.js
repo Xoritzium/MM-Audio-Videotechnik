@@ -9,12 +9,11 @@ export let audioBPlaying = false;
 export let audioBPlaybackSpeed = 1;
 export let audioBVolume = 50;
 //skip Forward/Backward in seconds
-let skipForwardAmount = 5;
-let skipBackwardAmount = 5;
+let skipAmount = 5;
 
 //setup web Audio API
-let audioA = new AudioPlayer("Technobase - Mutter der Mann mit dem Koks ist da .mp3");
-let audioB = new AudioPlayer("Hardwell - Bella Ciao (Hardwell & Maddix Remix).mp3");
+ let audioA = new AudioPlayer("Technobase - Mutter der Mann mit dem Koks ist da .mp3");
+ let audioB = new AudioPlayer("Hardwell - Bella Ciao (Hardwell & Maddix Remix).mp3");
 
 if (!window.AudioContext) {
     alert("Web audio API not supported!");
@@ -53,7 +52,7 @@ export function skipBackwardAudioA() {
  * Skips forwad audio A.
 */
 export function skipForwardAudioA() {
-    audioA.skipForward(skipForwardAmount);
+    audioA.skipForward(skipAmount);
 }
 /**
  * Changes the playback speed for audio A.
