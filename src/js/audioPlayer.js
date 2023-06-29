@@ -1,5 +1,4 @@
 
-
 class AudioPlayer {
 
     // url will be the file dropped in later
@@ -17,7 +16,6 @@ class AudioPlayer {
         this.frequencyDataArray = new Uint8Array(this.audioFrequencyDataArrayLength);
         this.analyserNode.getByteFrequencyData(this.frequencyDataArray);
 
-        this.timeStemp = 0;
 
         if (!window.AudioContext) {
             alert("Web audio API not supported!");
@@ -54,6 +52,13 @@ class AudioPlayer {
     }
 
     setNewAudio(droppedFile) {
+    // neues Audio einlesen geht erst nach reload..
+        if(this.audioBufferSource){
+        this.audioBufferSource.stop();
+        this.audioBufferSource.disconnect();
+
+
+    }
 
         const audioFile = droppedFile;
         const reader = new FileReader();
@@ -66,28 +71,35 @@ class AudioPlayer {
                 this.setBuffer.bind(this))
         }
 
+
         return audioFile.name;
+
     }
     /**
      * actual audio stuff
      */
     playAudio() {
+
         if (!this.audioBuffer) return;
         console.log("play");
+
         if (this.audioContext.state === 'suspended') {
             this.audioContext.resume();
         } else {
             this.audioBufferSource = this.audioContext.createBufferSource();
             this.audioBufferSource.buffer = this.audioBuffer;
 
+
             this.audioBufferSource.disconnect();
+
             //disconnect
+            this.audioBufferSource.disconnect();
             //build node tree
             this.audioBufferSource.connect(this.audioVolumeGainNode);
             this.audioVolumeGainNode.connect(this.crossFaderGainNode);
             this.crossFaderGainNode.connect(this.audioContext.destination);
 
-            this.audioBufferSource.start(0);
+            this.audioBufferSource.start();
         }
     }
 
@@ -96,6 +108,8 @@ class AudioPlayer {
         if (this.audioContext.state === 'running') {
             this.audioContext.suspend();
         }
+
+
     }
 
     changeVolume(value) {
@@ -111,6 +125,7 @@ class AudioPlayer {
         this.audioBufferSource.playbackRate.value = val;
     }
 
+
     skipForward(amount) {
 
     }
@@ -120,7 +135,6 @@ class AudioPlayer {
     getAudioFrequencyData() {
         return this.frequencyDataArray;
     }
-
 
 
 
