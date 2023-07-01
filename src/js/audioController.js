@@ -13,8 +13,8 @@ export let audioBVolume = 50;
 let skipAmount = 5;
 
 //setup web Audio API
- let audioA = new AudioPlayer("Technobase - Mutter der Mann mit dem Koks ist da .mp3");
- let audioB = new AudioPlayer("Hardwell - Bella Ciao (Hardwell & Maddix Remix).mp3");
+let audioA = new AudioPlayer("Technobase - Mutter der Mann mit dem Koks ist da .mp3");
+let audioB = new AudioPlayer("Hardwell - Bella Ciao (Hardwell & Maddix Remix).mp3");
 
 
 if (!window.AudioContext) {
@@ -172,37 +172,15 @@ export function allowDropForAudio(event) {
 
 // get drop from audio A
 export function getAudioForA(event) {
-    let data = null;
-    console.log("something has been dropped.");
     event.preventDefault();
-    data = event.dataTransfer.items;
-
-    if (data.length > 1) {
-        alert("Drop only one File please.");
-        data = null;
-        return;
+    const files = event.dataTransfer.files;
+    console.log("files dropped audio A: " + files.length);
+    if (files.length > 0) {
+        let title = audioA.setNewAudio(files[0]);
+        userInterface.changeTitleAudioA(title);
+    } else {
+        alert("no audio given");
     }
-    data = event.dataTransfer.items[0];
-    console.log("kind: " + data.kind);
-    console.log("tpye: " + data.type);
-    //  audioA = new AudioPlayer(data);
-    /** -> rumprobiere.
-     * 
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", 'URL');
-    xhr.onreadystatechange = () =>{
-        console.log("in onReadyStateChange"); 
-            if(xhr.readyState == 4){ //complete
-                if(xhr.status == 200){ // success
-                    audioA = new AudioPlayer(request.response);
-                }else{
-                    console.log("upload failed");
-                }
-            }else{
-                console.log("readyStatus =" + xhr.readyState);
-            }
-        }
-        */
 
 }
 
@@ -213,13 +191,12 @@ export function getAudioForA(event) {
 export function getAudioForB(event) {
     event.preventDefault();
     const files = event.dataTransfer.files;
-    console.log("files dropped: " + files.length);
-    if(files.length > 0){
-        audioB.setNewAudio(files[0]);
-    }else{
+    console.log("files dropped audio B: " + files.length);
+    if (files.length > 0) {
+        let title = audioB.setNewAudio(files[0]);
+        userInterface.changeTitleAudioB(title);
+    } else {
         alert("no audio given");
     }
-
-
 }
 
