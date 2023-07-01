@@ -21,3 +21,6 @@ Vorschlag von Fr. Lang: VectorGraphik, die sich verändert -> wird nicht im Kurs
 ->Sich nach Visualisierungsmöglichkeiten umschauen.
 ## Miroboard
 https://miro.com/welcomeonboard/amdhZ3IxeDB4RkNiUU9ZWFRQc2RMRGg5MTZTZ2xneWgyS0l5WERVM2JzcUhkZkltcGdjYzlqNzZjb0hMU0FuMnwzMDc0NDU3MzU3OTY4MDMwMzI1fDI=?share_link_id=339703204938
+
+#Hinweis:
+ich weiß nicht wieso, aber damit der audiokram funktioniert muss nach dem npm start eine Datei gesaved werden. Auch wenn es da keine Änderung gab...
