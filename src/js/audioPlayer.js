@@ -47,18 +47,12 @@ class AudioPlayer {
         this.audioBuffer = decodedBuffer;
         this.isReady = true;
         this.audioBuffer.loop = true;
-       
+
 
     }
 
     setNewAudio(droppedFile) {
-    // neues Audio einlesen geht erst nach reload..
-        if(this.audioBufferSource){
-        this.audioBufferSource.stop();
-        this.audioBufferSource.disconnect();
 
-
-    }
 
         const audioFile = droppedFile;
         const reader = new FileReader();
@@ -135,8 +129,6 @@ class AudioPlayer {
     getAudioFrequencyData() {
         return this.frequencyDataArray;
     }
-
-
 
 }
 export default AudioPlayer;

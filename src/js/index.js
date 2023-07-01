@@ -222,3 +222,15 @@ function drag(event) {
         fxMenu.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
     }
 }
+
+//**********Title Change Audio */
+
+export function changeTitleAudioA(newTitle) {
+    const title = document.querySelector('.titleBoxAudioA');
+    title.innerHTML = newTitle;
+}
+
+export function changeTitleAudioB(newTitle) {
+    const title = document.querySelector('.titleBoxAudioB');
+    title.innerHTML = newTitle;
+}
