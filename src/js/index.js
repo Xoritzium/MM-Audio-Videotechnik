@@ -180,11 +180,9 @@ switches.forEach(
                     if (activeSwitch.getAttribute('id') != checkbox.getAttribute('id'))
                         activeSwitch.checked = false;
                 });
-                console.log(`visualization ${index + 1} activated`);
-                // visualization control
             } else {
-                console.log(`visualization ${index + 1} deactivated`);
-                // visualization control
+                if (document.querySelectorAll('.fxMenu input[type="checkbox"]:checked').length == 0)
+                    audioVisualizer.setVisualizationOption('0');
             }
         });
     });
