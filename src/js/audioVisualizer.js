@@ -137,3 +137,60 @@ export function draw() {
 }
 
 draw();
+
+
+/* Zweiter Visualizer
+  container.addEventListener('click', function () {
+  const audio1 = document.getElementById('audio1');
+  audio1.src = "Cris Velasco & Sascha Dikiciyan - Warhammer 40,000 Space Marine (Original Soundtrack) - 13 - The Meat Grinder.mp3";
+  const audioContext = new AudioContext();
+  audio1.play();
+  audioSource = audioContext.createMediaElementSource(audio1);
+  analyser = audioContext.createAnalyser();
+  audioSource.connect(analyser);
+  analyser.connect(audioContext.destination);
+  analyser.fftSize = 128;
+  const bufferLength = analyser.frequencyBinCount;
+  const dataArray = new Uint8Array(bufferLength);
+
+  const barWidth = 15;
+  let barHeight;
+  let x;
+
+  function animate() {
+      x = 0;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      analyser.getByteFrequencyData(dataArray);
+      drawVisualiser(bufferLength, x, barWidth, barHeight, dataArray);
+      requestAnimationFrame(animate);
+  }
+  animate();
+});
+
+
+function drawVisualiser(bufferLength, x, barWidth, barHeight, dataArray) {
+  for (let i = 0; i < bufferLength; i++) {
+      barHeight = dataArray[i] * 2 
+      ctx.save();
+      ctx.translate(canvas.width / 2, canvas.height / 2);
+      ctx.rotate(i * 3.2);
+      const hue = 0;
+      ctx.fillStyle = 'hsl(' + hue + ',100%,50%)';
+      ctx.strokeStyle = 'hsl(' + hue + ',100%,50%)'; 
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(0, barHeight);
+     
+      ctx.stroke();
+
+      x -= barWidth;
+
+      if (i > bufferLength * 0.6) {
+          ctx.beginPath();
+          ctx.arc(0, 0, barHeight / 1.5, 0, Math.PI * 2);
+          ctx.stroke();
+      }
+      ctx.restore();
+  }
+} */
