@@ -13,13 +13,9 @@ export let audioBVolume = 50;
 let skipAmount = 5;
 
 //setup web Audio API
-let audioA = new AudioPlayer("Technobase - Mutter der Mann mit dem Koks ist da .mp3");
-let audioB = new AudioPlayer("Hardwell - Bella Ciao (Hardwell & Maddix Remix).mp3");
+let audioA = new AudioPlayer();
+let audioB = new AudioPlayer();
 
-
-if (!window.AudioContext) {
-    alert("Web audio API not supported!");
-}
 
 
 // -------------------------------------- audio A

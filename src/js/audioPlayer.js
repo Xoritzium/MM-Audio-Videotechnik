@@ -1,8 +1,8 @@
 
 class AudioPlayer {
 
-    // url will be the file dropped in later
-    constructor(url) {
+    
+    constructor() {
 
         //setup web Audio API
         this.audioContext = new AudioContext();
@@ -20,18 +20,7 @@ class AudioPlayer {
         if (!window.AudioContext) {
             alert("Web audio API not supported!");
         }
-        // static read of a Sample audio from given Filepath
-        /*
-                this.request = new XMLHttpRequest();
-                this.request.open('GeT', url, true);
-              this.request.responseType = 'arraybuffer';
-                this.request.onload = () => {
-        
-                    this.recieveAudio();
-                }
-        
-                this.request.send();
-        */
+       
     }
 
 
