@@ -1,8 +1,8 @@
 /**
  * Analyzes the given audio and puts the frequency spectrum on a corresponding canvas
  * 
- * @param {*} audioFile The audiofile to be analyzed.
- * @param {String} canvasId The ID of the canvas where the frequency spectrum should be drawn.
+ * @param {HTMLAudioElement} audioFile The audiofile to be analyzed.
+ * @param {string} canvasId The ID of the canvas where the frequency spectrum should be drawn.
  */
 export function analyzeFrequencySpectrum(audioFile, canvasID) {
   const audio = audioFile;
