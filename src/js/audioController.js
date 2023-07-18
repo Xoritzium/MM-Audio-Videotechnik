@@ -46,6 +46,7 @@ export function pauseAudioA() {
 export function skipBackwardAudioA() {
     // audio control
     console.log('skip backward audio a');
+    audioA.skipBackward(skipAmount);
 }
 /**
  * Skips forwad audio A.
@@ -126,6 +127,7 @@ export function pauseAudioB() {
 export function skipBackwardAudioB() {
     // audio control
     console.log('skip backward audio b');
+    audioB.skipBackward(skipAmount);
 }
 /**
  * Skips forwad audio B.
@@ -133,6 +135,7 @@ export function skipBackwardAudioB() {
 export function skipForwardAudioB() {
     // audio control
     console.log('skip forward audio b');
+    audioB.skipForward(skipAmount);
 }
 /**
  * Changes the playback speed for audio B.
@@ -174,6 +177,7 @@ export function getAudioForA(event) {
     if (files.length > 0) {
         let title = audioA.setNewAudio(files[0]);
         userInterface.changeTitleAudioA(title);
+       
     } else {
         alert("no audio given");
     }
@@ -191,6 +195,7 @@ export function getAudioForB(event) {
     if (files.length > 0) {
         let title = audioB.setNewAudio(files[0]);
         userInterface.changeTitleAudioB(title);
+       
     } else {
         alert("no audio given");
     }
