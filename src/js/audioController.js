@@ -1,5 +1,6 @@
 import * as userInterface from "./index.js";
 import AudioPlayer from "./audioPlayer.js";
+import * as audioVisualizer from "./audioVisualizer.js"
 
 export let audioAPlaying = false;
 export let audioAPlaybackSpeed = 1;
@@ -13,9 +14,12 @@ export let audioBVolume = 50;
 let skipAmount = 5;
 
 //setup web Audio API
-let audioA = new AudioPlayer("Technobase - Mutter der Mann mit dem Koks ist da .mp3");
-let audioB = new AudioPlayer("Hardwell - Bella Ciao (Hardwell & Maddix Remix).mp3");
+//const audioA = new AudioPlayer("Technobase - Mutter der Mann mit dem Koks ist da .mp3");
+//const audioB = new AudioPlayer("Hardwell - Bella Ciao (Hardwell & Maddix Remix).mp3");
+const audioA = new AudioPlayer();
+const audioB = new AudioPlayer();
 
+const dropBox = document.getElementById('dragBoxA');
 
 if (!window.AudioContext) {
     alert("Web audio API not supported!");
@@ -28,6 +32,7 @@ if (!window.AudioContext) {
 */
 export function playAudioA() {
     // audio control
+    audioVisualizer.startDrawing();
     audioAPlaying = true;
     userInterface.switchButtonPlayAudioA();
     console.log('play audio a ' + audioAPlaying);
@@ -39,6 +44,7 @@ export function playAudioA() {
  */
 export function pauseAudioA() {
     // audio control
+    audioVisualizer.stopDrawing();
     audioAPlaying = false;
     userInterface.switchButtonPlayAudioA();
     console.log('pause audio a ' + audioAPlaying);
@@ -100,8 +106,6 @@ export function crossfade(event) {
     audioB.changeVolume(value);
 }
 
-
-
 // -------------------------------------- audio B
 /**
  * Plays audio B.
@@ -162,7 +166,6 @@ export function changeVolumeAudioB(event) {
     audioB.changeVolume(value);
 }
 
-
 export function allowDropForAudio(event) {
     event.preventDefault();
     //  event.stopPropagation();
@@ -173,14 +176,23 @@ export function allowDropForAudio(event) {
 // get drop from audio A
 export function getAudioForA(event) {
     event.preventDefault();
-    const files = event.dataTransfer.files;
-    console.log("files dropped audio A: " + files.length);
+
+    let file = event.dataTransfer.files[0];
+
+    //console.log("files dropped audio A: " + file.length);
+
+    if (typeof file != 'undefined') {
+        audioA.setNewAudio(file);
+    }
+
+    /** 
     if (files.length > 0) {
         let title = audioA.setNewAudio(files[0]);
         userInterface.changeTitleAudioA(title);
     } else {
         alert("no audio given");
     }
+    */
 
 }
 

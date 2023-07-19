@@ -1,11 +1,19 @@
 
 class AudioPlayer {
 
-    // url will be the file dropped in later
-    constructor(url) {
 
+    // url will be the file dropped in later
+    constructor() {
+        
+        console.log("setup audio player");
         //setup web Audio API
-        this.audioContext = new AudioContext();
+        try {
+            this.audioContext = new AudioContext();
+        } catch (error) {
+            console.log(error);
+        }
+
+       // console.log("audiocontext: " + audioContext);
         this.audioVolumeGainNode = this.audioContext.createGain();
         this.crossFaderGainNode = this.audioContext.createGain();
         this.audioVolume = 10;
@@ -16,66 +24,85 @@ class AudioPlayer {
         this.frequencyDataArray = new Uint8Array(this.audioFrequencyDataArrayLength);
         this.analyserNode.getByteFrequencyData(this.frequencyDataArray);
 
-
         if (!window.AudioContext) {
             alert("Web audio API not supported!");
         }
-        // static read of a Sample audio from given Filepath
-        /*
-                this.request = new XMLHttpRequest();
-                this.request.open('GeT', url, true);
-              this.request.responseType = 'arraybuffer';
-                this.request.onload = () => {
-        
-                    this.recieveAudio();
-                }
-        
-                this.request.send();
-        */
     }
-
-
-    recieveAudio() {
-        this.audioBuffer = this.request.response;
-        //this.request.response
-        this.audioContext.decodeAudioData(this.audioBuffer).then(
-            this.setBuffer.bind(this)
-        )
-    }
+    
 
     setBuffer(decodedBuffer) {
-        this.audioBuffer = decodedBuffer;
-        this.isReady = true;
-        this.audioBuffer.loop = true;
+       
+        sourceNode.buffer = decodedAudioBuffer;
+        sourceNode.connect(audioContext.destination);
+        sourceNode.start();
+
+        
+        //this.audioBuffer = decodedBuffer;
+        //this.isReady = true;
+        //this.audioBuffer.loop = true;
 
 
     }
 
     setNewAudio(droppedFile) {
 
-
+        
+        console.log("set new Buffer");
         const audioFile = droppedFile;
         const reader = new FileReader();
         reader.readAsArrayBuffer(audioFile);
+        
 
+        reader.onload = function(event) {
+            // Handle successful file reading
+            const fileContent = event.target.result;
+            
+            console.log("audioContext: " + audioContext);
+            
+            console.log('File content:', fileContent);
+          };
 
+        /**
+        reader.onloadend = () => {
+            const audioData = reader.result;
+            console.log("audio context" + audioContext);
+            if (this.audioContext == 'undefined') {
+                    console.log("audio context missing");
+                }
+            this.audioContext.decodeAudioData(audioData).then(decodedAudioBuffer => {
+                
+                const sourceNode = audioContext.createBufferSource();
+                sourceNode.buffer = decodedAudioBuffer;
+                sourceNode.connect(audioContext.destination);
+                sourceNode.start();
+                
+                //this.setBuffer(decodedAudioBuffer);
+            });
+        };
+        */
+
+        /**
         reader.onloadend = () => {
             this.audioBuffer = reader.result;
             this.audioContext.decodeAudioData(this.audioBuffer).then(
                 this.setBuffer.bind(this))
         }
-
+        */
 
         return audioFile.name;
-
     }
+
     /**
      * actual audio stuff
      */
     playAudio() {
 
-        if (!this.audioBuffer) return;
+        if (!this.audioBuffer) {
+            return;
+        }
         console.log("play");
+        
+        
 
         if (this.audioContext.state === 'suspended') {
             this.audioContext.resume();
@@ -89,12 +116,16 @@ class AudioPlayer {
             //disconnect
             this.audioBufferSource.disconnect();
             //build node tree
-            this.audioBufferSource.connect(this.audioVolumeGainNode);
-            this.audioVolumeGainNode.connect(this.crossFaderGainNode);
-            this.crossFaderGainNode.connect(this.audioContext.destination);
+            this.audioBufferSource.connect(this.audioContext.destination);
+            //this.audioBufferSource.connect(this.audioVolumeGainNode);
+            //this.audioVolumeGainNode.connect(this.crossFaderGainNode);
+            //this.crossFaderGainNode.connect(this.audioContext.destination);
 
             this.audioBufferSource.start();
         }
+
+        console.log(this.audioContext.state);
+
     }
 
     pauseAudio() {

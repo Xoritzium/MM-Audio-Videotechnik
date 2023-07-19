@@ -52,8 +52,8 @@ volumeSliderAudioA.addEventListener('input', audioController.changeVolumeAudioA)
 dragNdropAudioA.addEventListener('dragover', audioController.allowDropForAudio);
 dragNdropAudioA.addEventListener('drop', audioController.getAudioForA);
 
-dragNdropAudioB.addEventListener('dragover', audioController.allowDropForAudio, false);
-dragNdropAudioB.addEventListener('drop', audioController.getAudioForB, false);
+dragNdropAudioB.addEventListener('dragover', audioController.allowDropForAudio);
+dragNdropAudioB.addEventListener('drop', audioController.getAudioForB);
 
 
 // -------------------------------------- event listeners for buttons audio B
@@ -174,15 +174,22 @@ playbackSpeedAudioB.forEach(
 switches.forEach(
     (checkbox, index) => {
         checkbox.addEventListener('change', () => {
+            
             if (checkbox.checked) {
                 document.querySelectorAll('.fxMenu input[type="checkbox"]:checked')
                 .forEach(activeSwitch => {
                     if (activeSwitch.getAttribute('id') != checkbox.getAttribute('id'))
                         activeSwitch.checked = false;
                 });
+                console.log("visualization " + (index+1) + " enabeld");
+                audioVisualizer.setVisualizationOption((index+1));
             } else {
-                if (document.querySelectorAll('.fxMenu input[type="checkbox"]:checked').length == 0)
-                    audioVisualizer.setVisualizationOption('0');
+                if (document.querySelectorAll('.fxMenu input[type="checkbox"]:checked').length == 0){
+                    audioVisualizer.setVisualizationOption(9);
+                   console.log("visualizer deactivated");
+                }
+                   
+
             }
         });
     });
@@ -195,7 +202,6 @@ colorInputs.forEach(
         colorInput.addEventListener('input', () => {
             const color = colorInput.value;
             console.log(`color for visualization ${index + 1}: ${color}`);
-            // visualization control
         });
     });
 // -------------------------------------- fx menu drag control
