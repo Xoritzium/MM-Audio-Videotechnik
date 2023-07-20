@@ -12,11 +12,11 @@ class AudioPlayer {
     setNewAudio(droppedFile) {
 
         if (this.audioContext) {
-            if(this.audioContext.state ==='running'){
+            if (this.audioContext.state === 'running') {
                 this.audioBufferSource.stop();
             }
             this.audioContext.close();
-            
+
         }
 
 
@@ -42,7 +42,6 @@ class AudioPlayer {
             this.audioContext.decodeAudioData(this.audioBuffer).then(
                 this.setBuffer.bind(this))
         }
-
         return audioFile.name;
 
     }
@@ -76,6 +75,7 @@ class AudioPlayer {
 
         this.audioBufferSource = this.audioContext.createBufferSource();
         this.audioBufferSource.buffer = this.audioBuffer;
+
 
         //disconnect
         this.audioBufferSource.disconnect();
@@ -112,7 +112,9 @@ class AudioPlayer {
         this.buildNodeTree();
         this.audioBufferSource.start(0, amount + time);
     }
+
     skipBackward(amount) {
+/*
         let time = this.audioContext.currentTime;
         this.audioBufferSource.stop();
         this.buildNodeTree();
@@ -121,7 +123,30 @@ class AudioPlayer {
         } else {
             this.audioBufferSource.start(0);
         }
+*/
+        this.skipToSpecificLocation(0.5);
     }
+    /**
+     * 
+     * @param {float} amount normalized value between 0,1
+     */
+    skipToSpecificLocation(amount) {
+        if (amount < 0 || amount > 1) {
+            throw new Error("Amount has to be between [0,1]!")
+        } else {
+            if (this.audioBuffer) {
+                this.audioBufferSource.stop();
+                this.buildNodeTree();
+                this.audioBufferSource.start(0, amount * this.audioBuffer.duration);
+                console.log("song duration: " + this.audioBuffer.duration);
+                console.log("entered Position: " +amount * this.audioBuffer.duration);
+            }
+
+        }
+
+    }
+
+
 
     // returns the frequency of the current playing song.
     //make sure to call it every frame !
