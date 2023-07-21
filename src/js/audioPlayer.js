@@ -6,6 +6,7 @@ class AudioPlayer {
         if (!window.AudioContext) {
             alert("Web audio API not supported!");
         }
+        this.audioContext = new AudioContext();
     }
 
 
@@ -41,6 +42,7 @@ class AudioPlayer {
             this.audioBuffer = reader.result;
             this.audioContext.decodeAudioData(this.audioBuffer).then(
                 this.setBuffer.bind(this))
+            console.log("ready");
         }
 
         return audioFile.name;
@@ -74,6 +76,8 @@ class AudioPlayer {
             this.buildNodeTree();
             this.audioBufferSource.start();
         }
+
+       
     }
 
     buildNodeTree() {
@@ -131,7 +135,10 @@ class AudioPlayer {
     //make sure to call it every frame !
     // each array index has a value between 0 and 255.
     getAudioFrequencyData() {
+        this.analyserNode.getByteFrequencyData(this.frequencyDataArray);
+        console.log(this.frequencyDataArray[28]);
         return this.frequencyDataArray;
+
     }
 }
 export default AudioPlayer;

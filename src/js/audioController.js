@@ -34,6 +34,8 @@ export function playAudioA() {
     console.log('play audio a ' + audioAPlaying);
     audioA.playAudio();
 
+    audioVisualizer.startDrawing();
+
 }
 /**
  * Pauses audio A.
@@ -45,6 +47,9 @@ export function pauseAudioA() {
     userInterface.switchButtonPlayAudioA();
     console.log('pause audio a ' + audioAPlaying);
     audioA.pauseAudio();
+
+    if (!audioBPlaying)
+        audioVisualizer.stopDrawing();
 }
 /**
  * Skips backward audio A.
@@ -113,6 +118,9 @@ export function playAudioB() {
     userInterface.switchButtonPlayAudioB();
     console.log('play audio b ' + audioBPlaying);
     audioB.playAudio();
+
+    audioVisualizer.startDrawing();
+
 }
 /**
  * Pauses audio B.
@@ -123,6 +131,9 @@ export function pauseAudioB() {
     userInterface.switchButtonPlayAudioB();
     console.log('pause audio b ' + audioBPlaying);
     audioB.pauseAudio();
+
+    if (!audioAPlaying)
+        audioVisualizer.stopDrawing();
 
 }
 /**
@@ -174,17 +185,18 @@ export function allowDropForAudio(event) {
 
 // get drop from audio A
 export function getAudioForA(event) {
+    
     event.preventDefault();
+    const files = event.dataTransfer.files;
 
-    let file = event.dataTransfer.files[0];
+    console.log("files dropped audio A: " + files.length);
 
-    //console.log("files dropped audio A: " + file.length);
-
+    /*
     if (typeof file != 'undefined') {
         audioA.setNewAudio(file);
     }
-
-    /** 
+    */
+    
     if (files.length > 0) {
         let title = audioA.setNewAudio(files[0]);
         userInterface.changeTitleAudioA(title);
@@ -192,7 +204,7 @@ export function getAudioForA(event) {
     } else {
         alert("no audio given");
     }
-    */
+    
 
 }
 
@@ -211,5 +223,11 @@ export function getAudioForB(event) {
     } else {
         alert("no audio given");
     }
+}
+
+export function getAudioArrayA() {
+
+    return audioA.getAudioFrequencyData();
+    
 }
 

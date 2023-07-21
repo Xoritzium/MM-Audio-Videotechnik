@@ -1,4 +1,4 @@
-import * as audioPlayer from "./audioPlayer.js";
+import * as audioController from "./audioController.js";
 
 
 const canvas = document.getElementById("visualizer")
@@ -16,9 +16,9 @@ analyser.fftSize = 128;
 let bufferLength = analyser.frequencyBinCount;
 
 track.connect(analyser).connect(audioCtx.destination);
-let dataArray = new Uint8Array(bufferLength);
+//let dataArray = new Uint8Array(bufferLength);
 
- let visualizationOption = 9; 
+let visualizationOption = 9; 
 
 export function setVisualizationOption(option) {
   visualizationOption = option;
@@ -51,6 +51,9 @@ function drawLines() {
   canvasCtx.strokeStyle = document.getElementById('colorpickerVisualization1').value;
   let sliceWidth = canvas.width * 1.0 / bufferLength;
   
+  let dataArray = audioController.getAudioArrayA();
+  
+  
   let x = 0;
 
   canvasCtx.beginPath();
@@ -73,6 +76,8 @@ function drawLines() {
 function drawPillars() {
 
   let barWidth = canvas.width / bufferLength;
+
+  let dataArray = audioController.getAudioArrayA();
 
   let barHeight;
   let x = 0;
@@ -105,6 +110,10 @@ function drawAbstract() {
   let barHeight;
   let x = 0;
 
+  let dataArray = audioController.getAudioArrayA();
+
+  console.log(dataArray[28] + " " + audioController.audioBVolume);
+
   for (let i = 0; i < bufferLength; i++) {
       barHeight = dataArray[i] * 2 
       canvasCtx.save();
@@ -135,7 +144,7 @@ export function draw() {
 
   console.log("draw");
   //analyser.getByteTimeDomainData(dataArray);
-  analyser.getByteFrequencyData(dataArray);
+  //analyser.getByteFrequencyData(dataArray);
 
   canvasCtx.fillStyle = backgroundColor;
 
