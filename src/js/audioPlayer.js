@@ -1,7 +1,7 @@
 
 class AudioPlayer {
 
-
+        
     constructor() {
         if (!window.AudioContext) {
             alert("Web audio API not supported!");

@@ -28,28 +28,20 @@ const dropBox = document.getElementById('dragBoxA');
 */
 export function playAudioA() {
     // audio control
-    audioVisualizer.startDrawing();
     audioAPlaying = true;
     userInterface.switchButtonPlayAudioA();
     console.log('play audio a ' + audioAPlaying);
     audioA.playAudio();
-
-    audioVisualizer.startDrawing();
-
 }
 /**
  * Pauses audio A.
  */
 export function pauseAudioA() {
     // audio control
-    audioVisualizer.stopDrawing();
     audioAPlaying = false;
     userInterface.switchButtonPlayAudioA();
     console.log('pause audio a ' + audioAPlaying);
     audioA.pauseAudio();
-
-    if (!audioBPlaying)
-        audioVisualizer.stopDrawing();
 }
 /**
  * Skips backward audio A.
@@ -118,9 +110,6 @@ export function playAudioB() {
     userInterface.switchButtonPlayAudioB();
     console.log('play audio b ' + audioBPlaying);
     audioB.playAudio();
-
-    audioVisualizer.startDrawing();
-
 }
 /**
  * Pauses audio B.
@@ -131,10 +120,6 @@ export function pauseAudioB() {
     userInterface.switchButtonPlayAudioB();
     console.log('pause audio b ' + audioBPlaying);
     audioB.pauseAudio();
-
-    if (!audioAPlaying)
-        audioVisualizer.stopDrawing();
-
 }
 /**
  * Skips backward audio B.
