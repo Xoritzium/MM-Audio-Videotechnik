@@ -174,9 +174,7 @@ export function getAudioForA(event) {
     const files = event.dataTransfer.files;
     console.log("files dropped audio A: " + files.length);
     if (files.length > 0) {
-        /* change */
-        let title = audioA.setNewAudio(files[0], "canvasFrequSpectrumAudioA");
-        /* change end*/
+        let title = audioA.setNewAudio(files[0]);
         userInterface.changeTitleAudioA(title);
 
     } else {
@@ -194,9 +192,7 @@ export function getAudioForB(event) {
     const files = event.dataTransfer.files;
     console.log("files dropped audio B: " + files.length);
     if (files.length > 0) {
-        /* change */
-        let title = audioB.setNewAudio(files[0], "canvasFrequSpectrumAudioB");
-        /* change end*/
+        let title = audioB.setNewAudio(files[0]);
         userInterface.changeTitleAudioB(title);
 
     } else {
