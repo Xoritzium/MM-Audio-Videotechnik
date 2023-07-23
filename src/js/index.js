@@ -234,3 +234,4 @@ export function changeTitleAudioB(newTitle) {
     const title = document.querySelector('.titleBoxAudioB');
     title.innerHTML = newTitle;
 }
+
