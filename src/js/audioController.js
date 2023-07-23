@@ -13,8 +13,8 @@ export let audioBVolume = 50;
 let skipAmount = 5;
 
 //setup web Audio API
-let audioA = new AudioPlayer();
-let audioB = new AudioPlayer();
+let audioA = new AudioPlayer("A");
+let audioB = new AudioPlayer("B");
 
 
 
@@ -28,7 +28,6 @@ export function playAudioA() {
     userInterface.switchButtonPlayAudioA();
     console.log('play audio a ' + audioAPlaying);
     audioA.playAudio();
-
 }
 /**
  * Pauses audio A.
@@ -175,9 +174,11 @@ export function getAudioForA(event) {
     const files = event.dataTransfer.files;
     console.log("files dropped audio A: " + files.length);
     if (files.length > 0) {
-        let title = audioA.setNewAudio(files[0]);
+        /* change */
+        let title = audioA.setNewAudio(files[0], "canvasFrequSpectrumAudioA");
+        /* change end*/
         userInterface.changeTitleAudioA(title);
-       
+
     } else {
         alert("no audio given");
     }
@@ -193,11 +194,38 @@ export function getAudioForB(event) {
     const files = event.dataTransfer.files;
     console.log("files dropped audio B: " + files.length);
     if (files.length > 0) {
-        let title = audioB.setNewAudio(files[0]);
+        /* change */
+        let title = audioB.setNewAudio(files[0], "canvasFrequSpectrumAudioB");
+        /* change end*/
         userInterface.changeTitleAudioB(title);
-       
+
     } else {
         alert("no audio given");
     }
 }
 
+//change
+// audio A postion changer
+const canvasPositionAudioA = document.getElementById("canvasPositionIndicatorAudioA");
+canvasPositionAudioA.addEventListener('click', handlePositionChangeAudioA);
+
+function handlePositionChangeAudioA(event) {
+    const rect = canvasPositionAudioA.getBoundingClientRect();
+    const clickX = event.clientX - rect.left;
+    const clickY = event.clientY - rect.top;
+    const positionPercentage = clickX / canvasPositionAudioA.clientWidth;
+    audioA.skipToSpecificLocation(positionPercentage);
+}
+
+// audio B postion changer
+const canvasPositionAudioB = document.getElementById("canvasPositionIndicatorAudioB");
+canvasPositionAudioB.addEventListener('click', handlePositionChangeAudioB);
+
+function handlePositionChangeAudioB(event) {
+    const rect = canvasPositionAudioB.getBoundingClientRect();
+    const clickX = event.clientX - rect.left;
+    const clickY = event.clientY - rect.top;
+    const positionPercentage = clickX / canvasPositionAudioB.clientWidth;
+    audioB.skipToSpecificLocation(positionPercentage);
+}
+//change end
