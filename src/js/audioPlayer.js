@@ -224,35 +224,6 @@ class AudioPlayer {
      * Animates a playback indicator of the currently played audio.
      * 
      */
-   /*  updatePlaybackIndicator() {
-        if (!this.audioBufferSource) return;
-
-        const canvasId = this.audioType === "A" ? "canvasPositionIndicatorAudioA" : "canvasPositionIndicatorAudioB";
-        const canvas = document.getElementById(canvasId);
-        const canvasCtx = canvas.getContext('2d');
-
-        if (canvasCtx) {
-            const canvasWidth = canvasCtx.canvas.width;
-            const canvasHeight = canvasCtx.canvas.height;
-
-            // getting the accurate current time from the AudioContext
-            const now = this.audioContext.getOutputTimestamp().contextTime;
-            this.currentPlaybackTime = now - this.startTime;
-
-            const totalTime = this.audioBuffer.duration;
-            const indicatorPosition = (this.currentPlaybackTime / totalTime) * canvasWidth;
-
-            canvasCtx.clearRect(0, 0, canvasWidth, canvasHeight);
-
-            // drawing the playback indicator
-            canvasCtx.fillStyle = "red"; // You can change the color of the indicator as desired
-            canvasCtx.fillRect(indicatorPosition, 0, 2, canvasHeight);
-
-            // continue updating the indicator
-            requestAnimationFrame(this.updatePlaybackIndicator.bind(this));
-        }
-    } */
-
     updatePlaybackIndicator() {
         
         const canvasId = this.audioType === "A" ? "canvasPositionIndicatorAudioA" : "canvasPositionIndicatorAudioB";
@@ -266,15 +237,15 @@ class AudioPlayer {
             const totalTime = this.audioBuffer.duration;
             const indicatorPosition = (currentTime / totalTime) * canvasWidth;
 
-            // Clear the canvas
+
             canvasCtx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-            // Draw the playback indicator
-            canvasCtx.fillStyle = "red"; // You can change the color of the indicator as desired
+            // playback indicator
+            canvasCtx.fillStyle = "red"; 
             canvasCtx.fillRect(indicatorPosition, 0, 2, canvasHeight);
         }
 
-        // Continue updating the indicator
+        // updating the indicator
         requestAnimationFrame(this.updatePlaybackIndicator.bind(this));
     }
 
