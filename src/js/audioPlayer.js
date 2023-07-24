@@ -40,6 +40,7 @@ class AudioPlayer {
         this.analyserNode.fftSize = 2048;
         this.audioFrequencyDataArrayLength = this.analyserNode.frequencyBinCount;
         this.frequencyDataArray = new Uint8Array(this.audioFrequencyDataArrayLength);
+        console.log("arraylength: " + this.audioFrequencyDataArrayLength)
         this.analyserNode.getByteFrequencyData(this.frequencyDataArray);
 
         const audioFile = droppedFile;
@@ -108,7 +109,8 @@ class AudioPlayer {
         //build node tree
         this.audioBufferSource.connect(this.audioVolumeGainNode);
         this.audioVolumeGainNode.connect(this.crossFaderGainNode);
-        this.crossFaderGainNode.connect(this.audioContext.destination);
+        this.crossFaderGainNode.connect(this.analyserNode);
+        this.analyserNode.connect(this.audioContext.destination);
 
     }
 
@@ -116,11 +118,13 @@ class AudioPlayer {
         if (this.audioContext.state === 'running') {
             this.audioContext.suspend();
         }
+       
     }
 
     changeVolume(value) {
         this.audioVolume = value / 100;
         this.audioVolumeGainNode.gain.value = this.audioVolume;
+        console.log("new gain: " + this.audioVolumeGainNode.gain.value);
     }
 
     handleCrossFader(val) {
@@ -142,7 +146,7 @@ class AudioPlayer {
     }
 
     skipBackward(amount) {
-        /*
+        
                 let time = this.audioContext.currentTime;
                 this.audioBufferSource.stop();
                 this.buildNodeTree();
@@ -151,8 +155,8 @@ class AudioPlayer {
                 } else {
                     this.audioBufferSource.start(0);
                 }
-        */
-        this.skipToSpecificLocation(0.5);
+        
+     
         this.updatePlaybackIndicator();
     }
     // orig:
@@ -190,10 +194,11 @@ class AudioPlayer {
 
             // stop and reset the current audio
             this.audioBufferSource.stop();
-
+/*
             // create a new buffer source and update the start time
             this.audioBufferSource = this.audioContext.createBufferSource();
             this.audioBufferSource.buffer = this.audioBuffer;
+            */
             this.buildNodeTree();
 
             // the new audio playback
@@ -218,6 +223,7 @@ class AudioPlayer {
     //make sure to call it every frame !
     // each array index has a value between 0 and 255.
     getAudioFrequencyData() {
+        this.analyserNode.getByteFrequencyData(this.frequencyDataArray);
         return this.frequencyDataArray;
     }
     /**

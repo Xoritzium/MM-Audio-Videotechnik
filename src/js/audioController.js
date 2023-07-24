@@ -28,6 +28,7 @@ export function playAudioA() {
     userInterface.switchButtonPlayAudioA();
     console.log('play audio a ' + audioAPlaying);
     audioA.playAudio();
+    getAudioSpectrumAudioA();
 }
 /**
  * Pauses audio A.
@@ -38,6 +39,8 @@ export function pauseAudioA() {
     userInterface.switchButtonPlayAudioA();
     console.log('pause audio a ' + audioAPlaying);
     audioA.pauseAudio();
+   
+  
 }
 /**
  * Skips backward audio A.
@@ -82,6 +85,19 @@ export function changeVolumeAudioA(event) {
     // console.log("volume audio a changed to: " + audioAVolume / 100);
 }
 
+/*
+Gets the Spectrum as an array
+ fftsize/2 (2048/2) = 1024 => array.length
+ values between 0,255
+*/
+export function getAudioSpectrumAudioA(){
+    let data = audioA.getAudioFrequencyData();
+  //  console.log("frequency[250]: " + data[250]);
+    if(audioAPlaying){
+        requestAnimationFrame(getAudioSpectrumAudioA);
+    }
+}
+
 
 /**
  * Crossfades between audio A and B.
@@ -108,6 +124,7 @@ export function playAudioB() {
     userInterface.switchButtonPlayAudioB();
     console.log('play audio b ' + audioBPlaying);
     audioB.playAudio();
+    getAudioSpectrumAudioB();
 }
 /**
  * Pauses audio B.
@@ -118,6 +135,7 @@ export function pauseAudioB() {
     userInterface.switchButtonPlayAudioB();
     console.log('pause audio b ' + audioBPlaying);
     audioB.pauseAudio();
+    
 
 }
 /**
@@ -159,6 +177,21 @@ export function changeVolumeAudioB(event) {
     //   console.log("volume audio b changed to: " + audioBVolume);
     audioB.changeVolume(value);
 }
+
+/*
+Gets the Spectrum as an array
+ fftsize/2 (2048/2) = 1024 => array.length
+ values between 0,255
+*/
+export function getAudioSpectrumAudioB(){
+    let data = audioB.getAudioFrequencyData();
+    //console.log("frequency[250] from B: " + data[250]);
+    if(audioBPlaying){
+        requestAnimationFrame(getAudioSpectrumAudioB);
+    }
+}
+
+
 
 
 export function allowDropForAudio(event) {
