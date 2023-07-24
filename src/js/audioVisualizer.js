@@ -1,67 +1,57 @@
 import * as audioController from "./audioController.js";
 
+  // setup canvas context 
+  let canvas = document.getElementById("visualizer")
+  let canvasCtx = canvas.getContext("2d")
 
-    // setup canvas context 
-    let canvas = document.getElementById("visualizer")
-    let canvasCtx = canvas.getContext("2d")
+  // get same Color of the Window behind the canvas, in order to let the canvas appear transparent except for the drawing 
+  const visualizerWindow = document.getElementById('VisualizerWindow')
+  const backgroundColor = window.getComputedStyle(visualizerWindow).getPropertyValue('background')
+  canvasCtx.fillStyle = backgroundColor;
 
-    // get same Color of the Window behind the canvas, in order to let the canvas appear transparent except for the drawing 
-    const visualizerWindow = document.getElementById('VisualizerWindow')
-    const backgroundColor = window.getComputedStyle(visualizerWindow).getPropertyValue('background')
-
-    // setup audio context for testing
-    let audioCtx = new window.AudioContext()
-    let audio = document.getElementById("audioTest")
-    let track = audioCtx.createMediaElementSource(audio)
-    let analyser = audioCtx.createAnalyser()
-    analyser.fftSize = 4096
-    let bufferLength = analyser.frequencyBinCount
-    let dataArray = new Uint8Array(bufferLength)
-    analyser.getByteTimeDomainData(dataArray)
-    track.connect(analyser).connect(audioCtx.destination)
-    
-    let subBass = [0,60]
-    let bass = [61,250]
-    let lowerMid = [250, 500]
-    let mid = [500, 2000]
-    let higherMid = [2000, 4000]
-    let presence = [4000, 6000]
-    let brilliance = [6000, 20000]
-
-    let subBassArea = [subBass[0], Math.trunc((subBass[1]/20000) * bufferLength)]
-    let bassArea = [subBassArea[1] +1, (subBassArea[1] +1) + (Math.trunc( ( (bass[1] - bass[0]) / 20000) * bufferLength ))]
-    let lowerMidArea = [bassArea[1] +1, (bassArea[1] +1) + (Math.trunc( ((lowerMid[1] - lowerMid[0]) /20000 ) * bufferLength))]
-    let midArea = [lowerMidArea[1] +1, (lowerMidArea[1] +1) + (Math.trunc( ((mid[1] - mid[0])/ 20000) * bufferLength))]
-    let higherMidArea = [midArea[1] +1, (midArea[1] +1) + (Math.trunc( ((higherMid[1] - higherMid[0]) / 20000) * bufferLength))]
-    let presenceArea = [higherMidArea[1] +1, (higherMidArea[1] +1) + (Math.trunc( ( (presence[1] - presence[0]) / 20000) * bufferLength))]
-    let brillianceArea = [presenceArea[1] +1, bufferLength]
-
-    console.log(bufferLength)
-    console.log(subBassArea)
-    console.log(bassArea)
-    console.log(lowerMidArea)
-    console.log(midArea)
-    console.log(higherMidArea)
-    console.log(presenceArea)
-    console.log(brillianceArea)
-
-    let playerA;
-    let playerB;
+  // setup audio context for testing
+  let audioCtx = new window.AudioContext()
+  let audio = document.getElementById("audioTest")
+  let track = audioCtx.createMediaElementSource(audio)
+  let analyser = audioCtx.createAnalyser()
+  analyser.fftSize = 8192
+  let bufferLength = analyser.frequencyBinCount
+  let dataArray = new Uint8Array(bufferLength)
+  analyser.getByteTimeDomainData(dataArray)
+  track.connect(analyser).connect(audioCtx.destination)
   
+  const subBass = [0,60]
+  const bass = [61,250]
+  const lowerMid = [250, 500]
+  const mid = [500, 2000]
+  const higherMid = [2000, 4000]
+  const presence = [4000, 6000]
+  const brilliance = [6000, 20000]
 
-    let x = 0;
-    let amplitude = 0; // Controls the height of the wave
-    let frequency = 0.03; // Controls the speed of the wave
-    const yOffset = canvas.height / 2; // Vertical center of the canvas
+  let subBassArea = [subBass[0], Math.round((subBass[1]/20000) * bufferLength)]
+  let bassArea = [subBassArea[1] +1, (subBassArea[1] +1) + (Math.round( ( (bass[1] - bass[0]) / 20000) * bufferLength ))]
+  let lowerMidArea = [bassArea[1] +1, (bassArea[1] +1) + (Math.round( ((lowerMid[1] - lowerMid[0]) /20000 ) * bufferLength))]
+  let midArea = [lowerMidArea[1] +1, (lowerMidArea[1] +1) + (Math.round( ((mid[1] - mid[0])/ 20000) * bufferLength))]
+  let higherMidArea = [midArea[1] +1, (midArea[1] +1) + (Math.round( ((higherMid[1] - higherMid[0]) / 20000) * bufferLength))]
+  let presenceArea = [higherMidArea[1] +1, (higherMidArea[1] +1) + (Math.round( ( (presence[1] - presence[0]) / 20000) * bufferLength))]
+  let brillianceArea = [presenceArea[1] +1, bufferLength]
 
-  let subBassFrequency = 0.005;
-  let bassFrequency = 0.01;
-  let lowMidFrequency = 0.02;
-  let midFrequency = 0.04;
-  let higherMidFrequency = 0.06; 
-  let presenceFrequency = 0.08;
+  console.log(subBassArea, bassArea, lowerMidArea, midArea, higherMid, presenceArea, brillianceArea)
+
+  let x = 0;
+  let amplitude = 0; // Controls the height of the wave
+  let frequency = 0.03; // Controls the speed of the wave
+  const yOffset = canvas.height / 2; // Vertical center of the canvas
+  const xLeftOffset = canvas.width * 0.25
+  const xRightOffset = canvas.width * 0.75
+
+  let subBassFrequency = 0.014;
+  let bassFrequency = 0.028;
+  let lowMidFrequency = 0.042;
+  let midFrequency = 0.056;
+  let higherMidFrequency = 0.07; 
+  let presenceFrequency = 0.084;
   let brillainceFrequency = 0.1;
-
 
   let subBassAmplitude;
   let bassAmplitude;
@@ -71,41 +61,69 @@ import * as audioController from "./audioController.js";
   let presenceAmplitude;
   let brillianceAmplitude;
 
-  function setPlayerA(audioPlayer) { playerA = audioPlayer }
+  function drawFunction(lineWidth, lineColor, frequencyRange, aggregation) {
+    canvasCtx.lineWidth = lineWidth
+    canvasCtx.strokeStyle = lineColor
+    canvasCtx.beginPath();
 
-  function setPlayerB(audioPlayer) { playerB = audioPlayer }
+    amplitude = 0;
 
-  function clearCanvas() { canvasCtx.clearRect(0, 0, canvas.width, canvas.height) }
+   
+
+    console.log(frequencyRange)
+
+    for (let i = frequencyRange[0]; i <= frequencyRange[1]; i++){
+      switch (aggregation) {
+        case "min":
+          if (i = 0 || dataArray[i] < amplitude)
+            amplitude = (dataArray[i] / 255) * yOffset
+        case "mean":
+          amplitude += (dataArray[i] / 255) 
+          if (i = frequencyRange[1])
+            amplitude = Math.floor(amplitude/i) * yOffset
+        case "max":
+            if (dataArray[i] > amplitude)
+              amplitude = (dataArray[i] / 255) * yOffset
+      }
+    }
+    
+
+
+  }
 
   function draw() {
     
     analyser.getByteFrequencyData(dataArray);
     canvasCtx.fillStyle = backgroundColor;
     canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    let aggregation = "mean"
   
+
+
+    console.log(subBassArea)
     //sub bass
-    canvasCtx.lineWidth = 3.5;
-    canvasCtx.strokeStyle = "rgb(128, 0, 0)";
-    canvasCtx.beginPath();  
+    let rgbSubBass = "rgb(128, 0, 0)"
+    
+    drawFunction(3.5, rgbSubBass, subBassArea, aggregation ) 
+    
 
     subBassAmplitude = 0
     for (let i = subBassArea[0]; i < subBassArea[1]; i++ )
       if (dataArray[i] > subBassAmplitude)
-        subBassAmplitude = (dataArray[i] / 255 ) * yOffset
+        subBassAmplitude = (dataArray[i] / 255 ) * xLeftOffset
 
-    let sy = subBassAmplitude * Math.cos(x * subBassFrequency) + yOffset
-    canvasCtx.moveTo(0, sy);
+    let subY = subBassAmplitude * Math.sin(x * subBassFrequency) + xLeftOffset
+    canvasCtx.moveTo(0, subY );
 
-    for (let i = 0; i < canvas.width; i += 5) {
-      const y = subBassAmplitude * Math.cos((i + x) * subBassFrequency) + yOffset
+    for (let i = 0; i < canvas.width; i += 25) {
+      const y = subBassAmplitude * Math.sin((i + x) * subBassFrequency) + yOffset
       canvasCtx.lineTo(i, y)
     }
     canvasCtx.stroke()
 
     //bass
-    canvasCtx.lineWidth = 3;
-    canvasCtx.strokeStyle = "rgb(0, 128, 0)";
-    canvasCtx.beginPath();  
+    drawFunction(3, "rgb(0, 128, 0)") 
 
     bassAmplitude = 0
     for (let i = bassArea[0]; i < bassArea[1]; i++ )
@@ -115,27 +133,25 @@ import * as audioController from "./audioController.js";
     let bay = bassAmplitude * Math.cos(x * bassFrequency) + yOffset
     canvasCtx.moveTo(0, bay);
 
-    for (let i = 0; i < canvas.width; i += 5) {
+    for (let i = 0; i < canvas.width; i += 20) {
       const y = subBassAmplitude * Math.cos((i + x) * bassFrequency) + yOffset
       canvasCtx.lineTo(i, y)
     }
     canvasCtx.stroke()
 
     //lowmid
-    canvasCtx.lineWidth = 2.5;
-    canvasCtx.strokeStyle = "rgb(0, 0, 128)";
-    canvasCtx.beginPath();  
+    drawFunction(2.5, "rgb(0, 0, 128)")
 
     lowMidAmplitude = 0
     for (let i = lowerMidArea[0]; i < lowerMidArea[1]; i++ )
       if (dataArray[i] > lowMidAmplitude)
       lowMidAmplitude = (dataArray[i] / 255 ) * yOffset
 
-    let ly = lowMidAmplitude * Math.cos(x * lowMidFrequency) + yOffset
+    let ly = lowMidAmplitude * Math.sin(x * lowMidFrequency) + yOffset
     canvasCtx.moveTo(0, ly);
 
-    for (let i = 0; i < canvas.width; i += 5) {
-      const y = lowMidAmplitude * Math.cos((i + x) * lowMidFrequency) + yOffset
+    for (let i = 0; i < canvas.width; i += 15) {
+      const y = lowMidAmplitude * Math.sin((i + x) * lowMidFrequency) + yOffset
       canvasCtx.lineTo(i, y)
     }
     canvasCtx.stroke()
@@ -153,7 +169,7 @@ import * as audioController from "./audioController.js";
     let my = midAmplitude * Math.cos(x * midFrequency) + yOffset
     canvasCtx.moveTo(0, my);
 
-    for (let i = 0; i < canvas.width; i += 5) {
+    for (let i = 0; i < canvas.width; i += 10) {
       const y = midAmplitude * Math.cos((i + x) * midFrequency) + yOffset
       canvasCtx.lineTo(i, y)
     }
@@ -169,11 +185,11 @@ import * as audioController from "./audioController.js";
       if (dataArray[i] > higherMidAmplitude)
       higherMidAmplitude = (dataArray[i] / 255 ) * yOffset
 
-    let hy = higherMidAmplitude * Math.cos(x * higherMidFrequency) + yOffset
+    let hy = higherMidAmplitude * Math.sin(x * higherMidFrequency) + yOffset
     canvasCtx.moveTo(0, hy);
 
     for (let i = 0; i < canvas.width; i += 5) {
-      const y = higherMidAmplitude * Math.cos((i + x) * higherMidFrequency) + yOffset
+      const y = higherMidAmplitude * Math.sin((i + x) * higherMidFrequency) + yOffset
       canvasCtx.lineTo(i, y)
     }
     canvasCtx.stroke()
@@ -191,7 +207,7 @@ import * as audioController from "./audioController.js";
     let py = presenceAmplitude * Math.cos(x * presenceFrequency) + yOffset
     canvasCtx.moveTo(0, py);
 
-    for (let i = 0; i < canvas.width; i += 5) {
+    for (let i = 0; i < canvas.width; i += 3) {
       const y = presenceAmplitude * Math.cos((i + x) * presenceFrequency) + yOffset
       canvasCtx.lineTo(i, y)
     }
@@ -207,11 +223,11 @@ import * as audioController from "./audioController.js";
       if (dataArray[i] > brillianceAmplitude)
       brillianceAmplitude = (dataArray[i] / 255 ) * yOffset
 
-    let by = brillianceAmplitude * Math.cos(x * brillainceFrequency) + yOffset
+    let by = brillianceAmplitude * Math.sin(x * brillainceFrequency) + yOffset
     canvasCtx.moveTo(0, by);
 
-    for (let i = 0; i < canvas.width; i += 5) {
-      const y = brillianceAmplitude * Math.cos((i + x) * brillainceFrequency) + yOffset
+    for (let i = 0; i < canvas.width; i += 1) {
+      const y = brillianceAmplitude * Math.sin((i + x) * brillainceFrequency) + yOffset
       canvasCtx.lineTo(i, y)
     }
     canvasCtx.stroke()
