@@ -1,11 +1,21 @@
-
+// change
+import analyzeFrequencySpectrum from "./frequencySpectrumAnalyzer.js";
+//change end
 class AudioPlayer {
 
-
-    constructor() {
+    //change
+    /**
+     * 
+     * @param {string} audioType "A" or "B"
+     */
+    constructor(audioType) {
         if (!window.AudioContext) {
             alert("Web audio API not supported!");
         }
+        this.audioType = audioType;
+        // initializing the current playback time to 0
+        this.currentPlaybackTime = 0;
+        // change end
     }
 
 
@@ -36,12 +46,24 @@ class AudioPlayer {
         const reader = new FileReader();
         reader.readAsArrayBuffer(audioFile);
 
-
         reader.onloadend = () => {
             this.audioBuffer = reader.result;
             this.audioContext.decodeAudioData(this.audioBuffer).then(
-                this.setBuffer.bind(this))
+                this.setBuffer.bind(this));
+
+            // change
+            // creating a temporary object URL for the audio file to match the parameters
+            // of analyzeFrequencySpectrum
+            const audioElement = new Audio();
+            audioElement.src = URL.createObjectURL(droppedFile);
+            if (this.audioType == "A") {
+                analyzeFrequencySpectrum(audioElement, "canvasFrequSpectrumAudioA");
+            } else if (this.audioType == "B") {
+                analyzeFrequencySpectrum(audioElement, "canvasFrequSpectrumAudioB");
+            }
+            //change end
         }
+
         return audioFile.name;
 
     }
@@ -51,9 +73,6 @@ class AudioPlayer {
         this.isReady = true;
         this.audioBuffer.loop = true;
     }
-
-
-
 
     /**
      * actual audio stuff
@@ -65,10 +84,17 @@ class AudioPlayer {
 
         if (this.audioContext.state === 'suspended') {
             this.audioContext.resume();
+
         } else {
             this.buildNodeTree();
-            this.audioBufferSource.start();
+            // change
+            // the new audio playback
+            this.startTime = this.audioContext.currentTime;
+            this.audioBufferSource.start(0, this.startTime);
+            this.updatePlaybackIndicator();
+            //change end
         }
+
     }
 
     buildNodeTree() {
@@ -111,41 +137,81 @@ class AudioPlayer {
         this.audioBufferSource.stop();
         this.buildNodeTree();
         this.audioBufferSource.start(0, amount + time);
+
+        this.updatePlaybackIndicator();
     }
 
     skipBackward(amount) {
-/*
-        let time = this.audioContext.currentTime;
-        this.audioBufferSource.stop();
-        this.buildNodeTree();
-        if (time - amount >= 0) {
-            this.audioBufferSource.start(0, time - amount);
-        } else {
-            this.audioBufferSource.start(0);
-        }
-*/
+        /*
+                let time = this.audioContext.currentTime;
+                this.audioBufferSource.stop();
+                this.buildNodeTree();
+                if (time - amount >= 0) {
+                    this.audioBufferSource.start(0, time - amount);
+                } else {
+                    this.audioBufferSource.start(0);
+                }
+        */
         this.skipToSpecificLocation(0.5);
+        this.updatePlaybackIndicator();
     }
+    // orig:
     /**
      * 
      * @param {float} amount normalized value between 0,1
      */
+    /*   skipToSpecificLocation(amount) {
+          if (amount < 0 || amount > 1) {
+              throw new Error("Amount has to be between [0,1]!")
+          } else {
+              if (this.audioBuffer) {
+                  this.audioBufferSource.stop();
+                  this.buildNodeTree();
+                  this.audioBufferSource.start(0, amount * this.audioBuffer.duration);
+                  console.log("song duration: " + this.audioBuffer.duration);
+                  console.log("entered Position: " + amount * this.audioBuffer.duration);
+                  
+                  
+                  this.updatePlaybackIndicator();
+              }
+  
+          }
+  
+      } */
+    /* change */
     skipToSpecificLocation(amount) {
         if (amount < 0 || amount > 1) {
-            throw new Error("Amount has to be between [0,1]!")
-        } else {
-            if (this.audioBuffer) {
-                this.audioBufferSource.stop();
-                this.buildNodeTree();
-                this.audioBufferSource.start(0, amount * this.audioBuffer.duration);
-                console.log("song duration: " + this.audioBuffer.duration);
-                console.log("entered Position: " +amount * this.audioBuffer.duration);
+            throw new Error("Amount has to be between [0,1]!");
+        } else if (this.audioBufferSource && this.audioBuffer) {
+            const newTime = amount * this.audioBuffer.duration;
+
+            // save the current playback state
+            const wasPlaying = this.audioContext.state === "running";
+
+            // stop and reset the current audio
+            this.audioBufferSource.stop();
+
+            // create a new buffer source and update the start time
+            this.audioBufferSource = this.audioContext.createBufferSource();
+            this.audioBufferSource.buffer = this.audioBuffer;
+            this.buildNodeTree();
+
+            // the new audio playback
+            this.startTime = this.audioContext.currentTime - newTime;
+            this.audioBufferSource.start(0, newTime);
+
+            // if it was playing before seeking, resume playback
+            if (wasPlaying) {
+                this.audioContext.resume();
             }
 
+            // update the current playback time
+            this.currentPlaybackTime = newTime;
+
+            this.updatePlaybackIndicator();
         }
-
     }
-
+    /* change end */
 
 
     // returns the frequency of the current playing song.
@@ -154,5 +220,35 @@ class AudioPlayer {
     getAudioFrequencyData() {
         return this.frequencyDataArray;
     }
+    /**
+     * Animates a playback indicator of the currently played audio.
+     * 
+     */
+    updatePlaybackIndicator() {
+        
+        const canvasId = this.audioType === "A" ? "canvasPositionIndicatorAudioA" : "canvasPositionIndicatorAudioB";
+        const canvas = document.getElementById(canvasId);
+        const canvasCtx = canvas.getContext('2d');
+
+        if (canvasCtx && this.audioBufferSource) {
+            const canvasWidth = canvasCtx.canvas.width;
+            const canvasHeight = canvasCtx.canvas.height;
+            const currentTime = this.audioContext.currentTime - this.startTime;
+            const totalTime = this.audioBuffer.duration;
+            const indicatorPosition = (currentTime / totalTime) * canvasWidth;
+
+
+            canvasCtx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+            // playback indicator
+            canvasCtx.fillStyle = "red"; 
+            canvasCtx.fillRect(indicatorPosition, 0, 2, canvasHeight);
+        }
+
+        // updating the indicator
+        requestAnimationFrame(this.updatePlaybackIndicator.bind(this));
+    }
+
+
 }
 export default AudioPlayer;
