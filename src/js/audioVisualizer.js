@@ -68,10 +68,6 @@ import * as audioController from "./audioController.js";
 
     amplitude = 0;
 
-   
-
-    console.log(frequencyRange)
-
     for (let i = frequencyRange[0]; i <= frequencyRange[1]; i++){
       switch (aggregation) {
         case "min":
@@ -100,8 +96,6 @@ import * as audioController from "./audioController.js";
     let aggregation = "mean"
   
 
-
-    console.log(subBassArea)
     //sub bass
     let rgbSubBass = "rgb(128, 0, 0)"
     
@@ -123,7 +117,8 @@ import * as audioController from "./audioController.js";
     canvasCtx.stroke()
 
     //bass
-    drawFunction(3, "rgb(0, 128, 0)") 
+    let rgbBassArea = "rgb(0, 128, 0)"
+    drawFunction(3, rgbBassArea, bassArea, aggregation) 
 
     bassAmplitude = 0
     for (let i = bassArea[0]; i < bassArea[1]; i++ )
@@ -140,7 +135,8 @@ import * as audioController from "./audioController.js";
     canvasCtx.stroke()
 
     //lowmid
-    drawFunction(2.5, "rgb(0, 0, 128)")
+    let rgbLowMid = "rgb(0, 0, 128)"
+    drawFunction(2.5, rgbLowMid, lowerMidArea, aggregation)
 
     lowMidAmplitude = 0
     for (let i = lowerMidArea[0]; i < lowerMidArea[1]; i++ )
