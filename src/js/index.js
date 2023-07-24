@@ -171,7 +171,7 @@ playbackSpeedAudioB.forEach(
  * Adds an event listener for all visualization switches.
  * Retrieves the state of that corresponding switch.
  */
-switches.forEach(
+/**switches.forEach(
     (checkbox, index) => {
         checkbox.addEventListener('change', () => {
             
@@ -192,7 +192,7 @@ switches.forEach(
 
             }
         });
-    });
+    }); */
 /**
  * Adds an event listener for all color pickers.
  * Retrieves the corresponding picked color.

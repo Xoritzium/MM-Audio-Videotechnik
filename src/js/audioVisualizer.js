@@ -124,27 +124,22 @@ import * as audioController from "./audioController.js"
     let aggregation = "max"
   
 
-    //sub bass
-    drawFunction(canvasCtx, dataArray, 3.5, "rgb(128, 0, 0)", subBassArea, aggregation, subBassFrequency, 30 ) 
-    
-    //bass
-    drawFunction(canvasCtx, dataArray, 3, "rgb(0, 128, 0)", bassArea, aggregation, bassFrequency, 25) 
+    const subBassColor = document.getElementById("colorpickerSubBass").value;
+    const bassColor = document.getElementById("colorpickerBass").value;
+    const lowerMidColor = document.getElementById("colorpickerLowMid").value;
+    const midColor = document.getElementById("colorpickerMid").value;
+    const higherMidColor = document.getElementById("colorpickerHighMid").value;
+    const presenceColor = document.getElementById("colorpickerPresence").value;
+    const brillianceColor = document.getElementById("colorpickerBrilliance").value;
 
-    //lowmid
-    drawFunction(canvasCtx, dataArray, 2.5, "rgb(0, 0, 128)", lowerMidArea, aggregation, lowerMidFrequency, 20) 
-
-    //mid
-    drawFunction(canvasCtx, dataArray, 2, "rgb(255, 0, 0)", midArea, aggregation, midFrequency, 15) 
-
-    //highmid
-    drawFunction(canvasCtx, dataArray, 1.5, "rgb(0, 255, 0)", higherMidArea, aggregation, higherMidFrequency, 10) 
-
-    //presence
-    drawFunction(canvasCtx, dataArray, 1, "rgb(0, 0, 255)", presenceArea, aggregation, presenceFrequency, 5) 
-
-    //brilliance
-    drawFunction(canvasCtx, dataArray, 0.5, "rgb(255, 255, 255)", brillianceArea, aggregation, brillianceFrequency, 0) 
-    
+  // Call the drawFunction with the corresponding color for each frequency range
+  drawFunction(canvasCtx, dataArray, 3.5, subBassColor, subBassArea, aggregation, subBassFrequency, 30);
+  drawFunction(canvasCtx, dataArray, 3, bassColor, bassArea, aggregation, bassFrequency, 25);
+  drawFunction(canvasCtx, dataArray, 2.5, lowerMidColor, lowerMidArea, aggregation, lowerMidFrequency, 20);
+  drawFunction(canvasCtx, dataArray, 2, midColor, midArea, aggregation, midFrequency, 15);
+  drawFunction(canvasCtx, dataArray, 1.5, higherMidColor, higherMidArea, aggregation, higherMidFrequency, 10);
+  drawFunction(canvasCtx, dataArray, 1, presenceColor, presenceArea, aggregation, presenceFrequency, 5);
+  drawFunction(canvasCtx, dataArray, 0.5, brillianceColor, brillianceArea, aggregation, brillianceFrequency, 0);
 
     /*drawFrequencyCurve(canvasCtx, dataArray, x, yOffset, xLeftOffset, 3.5, "rgb(128, 0, 0)", subBassArea, subBassFrequency);
     drawFrequencyCurve(canvasCtx, dataArray, x, yOffset, xLeftOffset, 3, "rgb(0, 128, 0)", bassArea, bassFrequency);
