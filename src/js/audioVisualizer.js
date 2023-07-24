@@ -1,13 +1,13 @@
-import * as audioController from "./audioController.js";
+import * as audioController from "./audioController.js"
 
-  // setup canvas context 
-  let canvas = document.getElementById("visualizer")
+  // setup canvas context 1 & 2
+  let canvas = document.getElementById("visualizer1")
   let canvasCtx = canvas.getContext("2d")
+  
+  let canvas2 = document.getElementById("visualizer2")
+  let canvasCtx2 = canvas2.getContext("2d")
 
-  // get same Color of the Window behind the canvas, in order to let the canvas appear transparent except for the drawing 
-  const visualizerWindow = document.getElementById('VisualizerWindow')
-  const backgroundColor = window.getComputedStyle(visualizerWindow).getPropertyValue('background')
-  canvasCtx.fillStyle = backgroundColor;
+
 
   // setup audio context for testing
   let audioCtx = new window.AudioContext()
@@ -36,22 +36,18 @@ import * as audioController from "./audioController.js";
   let presenceArea = [higherMidArea[1] +1, (higherMidArea[1] +1) + (Math.round( ( (presence[1] - presence[0]) / 20000) * bufferLength))]
   let brillianceArea = [presenceArea[1] +1, bufferLength]
 
-  console.log(subBassArea, bassArea, lowerMidArea, midArea, higherMid, presenceArea, brillianceArea)
+  console.log(subBassArea, bassArea, lowerMidArea, midArea, higherMidArea, presenceArea, brillianceArea)
 
-  let x = 0;
-  let amplitude = 0; // Controls the height of the wave
-  let frequency = 0.03; // Controls the speed of the wave
-  const yOffset = canvas.height / 2; // Vertical center of the canvas
-  const xLeftOffset = canvas.width * 0.25
-  const xRightOffset = canvas.width * 0.75
+  let y = 0;
+  const xOffset = canvas.width / 2
 
   let subBassFrequency = 0.014;
   let bassFrequency = 0.028;
-  let lowMidFrequency = 0.042;
+  let lowerMidFrequency = 0.042;
   let midFrequency = 0.056;
   let higherMidFrequency = 0.07; 
   let presenceFrequency = 0.084;
-  let brillainceFrequency = 0.1;
+  let brillianceFrequency = 0.1;
 
   let subBassAmplitude;
   let bassAmplitude;
@@ -61,174 +57,105 @@ import * as audioController from "./audioController.js";
   let presenceAmplitude;
   let brillianceAmplitude;
 
-  function drawFunction(lineWidth, lineColor, frequencyRange, aggregation) {
+  
+  function drawFunction(canvasCtx, dataArray, lineWidth, lineColor, frequencyRange, aggregation, frequency, functionOffset) {
+    
     canvasCtx.lineWidth = lineWidth
     canvasCtx.strokeStyle = lineColor
     canvasCtx.beginPath();
 
-    amplitude = 0;
+    let amplitude = 0;
 
     for (let i = frequencyRange[0]; i <= frequencyRange[1]; i++){
       switch (aggregation) {
         case "min":
           if (i = 0 || dataArray[i] < amplitude)
-            amplitude = (dataArray[i] / 255) * yOffset
+            amplitude = (dataArray[i] / 255) *  xOffset
         case "mean":
           amplitude += (dataArray[i] / 255) 
           if (i = frequencyRange[1])
-            amplitude = Math.floor(amplitude/i) * yOffset
+            amplitude = Math.floor(amplitude/i) * xOffset
         case "max":
             if (dataArray[i] > amplitude)
-              amplitude = (dataArray[i] / 255) * yOffset
+              amplitude = (dataArray[i] / 255) * xOffset
       }
     }
-    
 
+    for (let i = 0; i < (canvas.height - functionOffset); i ++) {
+      const x = amplitude * Math.sin((i + y) * frequency) + xOffset
+      canvasCtx.lineTo(x, i)
+    }
+
+    canvasCtx.stroke()
 
   }
+    
+
+    function drawFrequencyCurve(canvasCtx, dataArray, x, yOffset, xLeftOffset, aggregation, rgbColor, frequencyArea, frequencyFrequency) {
+      let amplitude = 0;
+    
+      for (let i = frequencyArea[0]; i < frequencyArea[1]; i++) {
+        if (dataArray[i] > amplitude) {
+          amplitude = (dataArray[i] / 255) * yOffset;
+        }
+      }
+    
+      let y = amplitude * Math.sin(x * frequencyFrequency) + yOffset;
+      canvasCtx.beginPath()
+      canvasCtx.moveTo(0, y)
+    
+      for (let i = 0; i < canvasCtx.canvas.width; i += aggregation) {
+        y = amplitude * Math.sin((i + x) * frequencyFrequency) + yOffset;
+        canvasCtx.lineTo(i, y);
+      }
+    
+      canvasCtx.strokeStyle = rgbColor;
+      canvasCtx.stroke();
+    }
+
+
 
   function draw() {
     
     analyser.getByteFrequencyData(dataArray);
-    canvasCtx.fillStyle = backgroundColor;
-    canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+
+    //canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
     
-    let aggregation = "mean"
+    let aggregation = "max"
   
 
     //sub bass
-    let rgbSubBass = "rgb(128, 0, 0)"
+    drawFunction(canvasCtx, dataArray, 3.5, "rgb(128, 0, 0)", subBassArea, aggregation, subBassFrequency, 30 ) 
     
-    drawFunction(3.5, rgbSubBass, subBassArea, aggregation ) 
-    
-
-    subBassAmplitude = 0
-    for (let i = subBassArea[0]; i < subBassArea[1]; i++ )
-      if (dataArray[i] > subBassAmplitude)
-        subBassAmplitude = (dataArray[i] / 255 ) * xLeftOffset
-
-    let subY = subBassAmplitude * Math.sin(x * subBassFrequency) + xLeftOffset
-    canvasCtx.moveTo(0, subY );
-
-    for (let i = 0; i < canvas.width; i += 25) {
-      const y = subBassAmplitude * Math.sin((i + x) * subBassFrequency) + yOffset
-      canvasCtx.lineTo(i, y)
-    }
-    canvasCtx.stroke()
-
     //bass
-    let rgbBassArea = "rgb(0, 128, 0)"
-    drawFunction(3, rgbBassArea, bassArea, aggregation) 
-
-    bassAmplitude = 0
-    for (let i = bassArea[0]; i < bassArea[1]; i++ )
-      if (dataArray[i] > bassAmplitude)
-      bassAmplitude = (dataArray[i] / 255 ) * yOffset
-
-    let bay = bassAmplitude * Math.cos(x * bassFrequency) + yOffset
-    canvasCtx.moveTo(0, bay);
-
-    for (let i = 0; i < canvas.width; i += 20) {
-      const y = subBassAmplitude * Math.cos((i + x) * bassFrequency) + yOffset
-      canvasCtx.lineTo(i, y)
-    }
-    canvasCtx.stroke()
+    drawFunction(canvasCtx, dataArray, 3, "rgb(0, 128, 0)", bassArea, aggregation, bassFrequency, 25) 
 
     //lowmid
-    let rgbLowMid = "rgb(0, 0, 128)"
-    drawFunction(2.5, rgbLowMid, lowerMidArea, aggregation)
-
-    lowMidAmplitude = 0
-    for (let i = lowerMidArea[0]; i < lowerMidArea[1]; i++ )
-      if (dataArray[i] > lowMidAmplitude)
-      lowMidAmplitude = (dataArray[i] / 255 ) * yOffset
-
-    let ly = lowMidAmplitude * Math.sin(x * lowMidFrequency) + yOffset
-    canvasCtx.moveTo(0, ly);
-
-    for (let i = 0; i < canvas.width; i += 15) {
-      const y = lowMidAmplitude * Math.sin((i + x) * lowMidFrequency) + yOffset
-      canvasCtx.lineTo(i, y)
-    }
-    canvasCtx.stroke()
+    drawFunction(canvasCtx, dataArray, 2.5, "rgb(0, 0, 128)", lowerMidArea, aggregation, lowerMidFrequency, 20) 
 
     //mid
-    canvasCtx.lineWidth = 2;
-    canvasCtx.strokeStyle = "rgb(255, 0, 0)";
-    canvasCtx.beginPath();  
-
-    midAmplitude = 0
-    for (let i = midArea[0]; i < midArea[1]; i++ )
-      if (dataArray[i] > midAmplitude)
-      midAmplitude = (dataArray[i] / 255 ) * yOffset
-
-    let my = midAmplitude * Math.cos(x * midFrequency) + yOffset
-    canvasCtx.moveTo(0, my);
-
-    for (let i = 0; i < canvas.width; i += 10) {
-      const y = midAmplitude * Math.cos((i + x) * midFrequency) + yOffset
-      canvasCtx.lineTo(i, y)
-    }
-    canvasCtx.stroke()
+    drawFunction(canvasCtx, dataArray, 2, "rgb(255, 0, 0)", midArea, aggregation, midFrequency, 15) 
 
     //highmid
-    canvasCtx.lineWidth = 1.5;
-    canvasCtx.strokeStyle = "rgb(0, 255, 0)";
-    canvasCtx.beginPath();  
-
-    higherMidAmplitude = 0
-    for (let i = higherMidArea[0]; i < higherMidArea[1]; i++ )
-      if (dataArray[i] > higherMidAmplitude)
-      higherMidAmplitude = (dataArray[i] / 255 ) * yOffset
-
-    let hy = higherMidAmplitude * Math.sin(x * higherMidFrequency) + yOffset
-    canvasCtx.moveTo(0, hy);
-
-    for (let i = 0; i < canvas.width; i += 5) {
-      const y = higherMidAmplitude * Math.sin((i + x) * higherMidFrequency) + yOffset
-      canvasCtx.lineTo(i, y)
-    }
-    canvasCtx.stroke()
+    drawFunction(canvasCtx, dataArray, 1.5, "rgb(0, 255, 0)", higherMidArea, aggregation, higherMidFrequency, 10) 
 
     //presence
-    canvasCtx.lineWidth = 1;
-    canvasCtx.strokeStyle = "rgb(0, 0, 255)";
-    canvasCtx.beginPath();  
-
-    presenceAmplitude = 0
-    for (let i = presenceArea[0]; i < presenceArea[1]; i++ )
-      if (dataArray[i] > presenceAmplitude)
-        presenceAmplitude = (dataArray[i] / 255 ) * yOffset
-
-    let py = presenceAmplitude * Math.cos(x * presenceFrequency) + yOffset
-    canvasCtx.moveTo(0, py);
-
-    for (let i = 0; i < canvas.width; i += 3) {
-      const y = presenceAmplitude * Math.cos((i + x) * presenceFrequency) + yOffset
-      canvasCtx.lineTo(i, y)
-    }
-    canvasCtx.stroke()
+    drawFunction(canvasCtx, dataArray, 1, "rgb(0, 0, 255)", presenceArea, aggregation, presenceFrequency, 5) 
 
     //brilliance
-    canvasCtx.lineWidth = 0.5;
-    canvasCtx.strokeStyle = "rgb(255, 255, 255)";
-    canvasCtx.beginPath();  
+    drawFunction(canvasCtx, dataArray, 0.5, "rgb(255, 255, 255)", brillianceArea, aggregation, brillianceFrequency, 0) 
+    
 
-    brillianceAmplitude = 0
-    for (let i = brillianceArea[0]; i < brillianceArea[1]; i++ )
-      if (dataArray[i] > brillianceAmplitude)
-      brillianceAmplitude = (dataArray[i] / 255 ) * yOffset
+    /*drawFrequencyCurve(canvasCtx, dataArray, x, yOffset, xLeftOffset, 3.5, "rgb(128, 0, 0)", subBassArea, subBassFrequency);
+    drawFrequencyCurve(canvasCtx, dataArray, x, yOffset, xLeftOffset, 3, "rgb(0, 128, 0)", bassArea, bassFrequency);
+    drawFrequencyCurve(canvasCtx, dataArray, x, yOffset, xLeftOffset, 2.5, "rgb(0, 0, 128)", lowerMidArea, lowMidFrequency);
+    drawFrequencyCurve(canvasCtx, dataArray, x, yOffset, xLeftOffset, 2, "rgb(255, 0, 0)", midArea, midFrequency);
+    drawFrequencyCurve(canvasCtx, dataArray, x, yOffset, xLeftOffset, 1.5, "rgb(0, 255, 0)", higherMidArea, higherMidFrequency);
+    drawFrequencyCurve(canvasCtx, dataArray, x, yOffset, xLeftOffset, 1, "rgb(0, 0, 255)", presenceArea, presenceFrequency);
+    drawFrequencyCurve(canvasCtx, dataArray, x, yOffset, xLeftOffset, 0.5, "rgb(255, 255, 255)", brillianceArea, brillianceFrequency);
+    */
 
-    let by = brillianceAmplitude * Math.sin(x * brillainceFrequency) + yOffset
-    canvasCtx.moveTo(0, by);
-
-    for (let i = 0; i < canvas.width; i += 1) {
-      const y = brillianceAmplitude * Math.sin((i + x) * brillainceFrequency) + yOffset
-      canvasCtx.lineTo(i, y)
-    }
-    canvasCtx.stroke()
-
-    x += 1;
+    y += 1;
 
     requestAnimationFrame(draw);
   }
