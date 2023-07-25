@@ -237,7 +237,7 @@ function setVolumeToFull() {
     volumeSliderAudioB.value = 100;
 }
 
-// Call the function to set the volume sliders to full volume
+
 setVolumeToFull();
 
 //**********Title Change Audio */
@@ -252,7 +252,7 @@ colorInputs.forEach((colorInput, index) => {
     colorInput.addEventListener('input', () => {
         const color = colorInput.value;
         console.log(`color for visualization ${index + 1}: ${color}`);
-        updateVisualizationColor(index + 1, color); // Update the color of the visualization
+        updateVisualizationColor(index + 1, color); 
     });
 });
 
