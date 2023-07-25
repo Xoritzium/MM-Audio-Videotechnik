@@ -14,10 +14,8 @@ export let audioBVolume = 50;
 let skipAmount = 5;
 
 //setup web Audio API
-//const audioA = new AudioPlayer("Technobase - Mutter der Mann mit dem Koks ist da .mp3");
-//const audioB = new AudioPlayer("Hardwell - Bella Ciao (Hardwell & Maddix Remix).mp3");
-const audioA = new AudioPlayer();
-const audioB = new AudioPlayer();
+let audioA = new AudioPlayer("A");
+let audioB = new AudioPlayer("B");
 
 const dropBox = document.getElementById('dragBoxA');
 
@@ -32,6 +30,7 @@ export function playAudioA() {
     userInterface.switchButtonPlayAudioA();
     console.log('play audio a ' + audioAPlaying);
     audioA.playAudio();
+    getAudioSpectrumAudioA();
 }
 /**
  * Pauses audio A.
@@ -42,6 +41,8 @@ export function pauseAudioA() {
     userInterface.switchButtonPlayAudioA();
     console.log('pause audio a ' + audioAPlaying);
     audioA.pauseAudio();
+   
+  
 }
 /**
  * Skips backward audio A.
@@ -86,6 +87,19 @@ export function changeVolumeAudioA(event) {
     // console.log("volume audio a changed to: " + audioAVolume / 100);
 }
 
+/*
+Gets the Spectrum as an array
+ fftsize/2 (2048/2) = 1024 => array.length
+ values between 0,255
+*/
+export function getAudioSpectrumAudioA(){
+    let data = audioA.getAudioFrequencyData();
+  //  console.log("frequency[250]: " + data[250]);
+    if(audioAPlaying){
+        requestAnimationFrame(getAudioSpectrumAudioA);
+    }
+}
+
 
 /**
  * Crossfades between audio A and B.
@@ -110,6 +124,7 @@ export function playAudioB() {
     userInterface.switchButtonPlayAudioB();
     console.log('play audio b ' + audioBPlaying);
     audioB.playAudio();
+    getAudioSpectrumAudioB();
 }
 /**
  * Pauses audio B.
@@ -161,6 +176,22 @@ export function changeVolumeAudioB(event) {
     audioB.changeVolume(value);
 }
 
+/*
+Gets the Spectrum as an array
+ fftsize/2 (2048/2) = 1024 => array.length
+ values between 0,255
+*/
+export function getAudioSpectrumAudioB(){
+    let data = audioB.getAudioFrequencyData();
+    //console.log("frequency[250] from B: " + data[250]);
+    if(audioBPlaying){
+        requestAnimationFrame(getAudioSpectrumAudioB);
+    }
+}
+
+
+
+
 export function allowDropForAudio(event) {
     event.preventDefault();
     //  event.stopPropagation();
@@ -185,7 +216,7 @@ export function getAudioForA(event) {
     if (files.length > 0) {
         let title = audioA.setNewAudio(files[0]);
         userInterface.changeTitleAudioA(title);
-       
+
     } else {
         alert("no audio given");
     }
@@ -204,15 +235,33 @@ export function getAudioForB(event) {
     if (files.length > 0) {
         let title = audioB.setNewAudio(files[0]);
         userInterface.changeTitleAudioB(title);
-       
+
     } else {
         alert("no audio given");
     }
 }
+//change
+// audio A postion changer
+const canvasPositionAudioA = document.getElementById("canvasPositionIndicatorAudioA");
+canvasPositionAudioA.addEventListener('click', handlePositionChangeAudioA);
 
-export function getAudioArrayA() {
-
-    return audioA.getAudioFrequencyData();
-    
+function handlePositionChangeAudioA(event) {
+    const rect = canvasPositionAudioA.getBoundingClientRect();
+    const clickX = event.clientX - rect.left;
+    const clickY = event.clientY - rect.top;
+    const positionPercentage = clickX / canvasPositionAudioA.clientWidth;
+    audioA.skipToSpecificLocation(positionPercentage);
 }
 
+// audio B postion changer
+const canvasPositionAudioB = document.getElementById("canvasPositionIndicatorAudioB");
+canvasPositionAudioB.addEventListener('click', handlePositionChangeAudioB);
+
+function handlePositionChangeAudioB(event) {
+    const rect = canvasPositionAudioB.getBoundingClientRect();
+    const clickX = event.clientX - rect.left;
+    const clickY = event.clientY - rect.top;
+    const positionPercentage = clickX / canvasPositionAudioB.clientWidth;
+    audioB.skipToSpecificLocation(positionPercentage);
+}
+//change end
