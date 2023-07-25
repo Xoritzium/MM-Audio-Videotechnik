@@ -92,10 +92,10 @@ Gets the Spectrum as an array
  fftsize/2 (2048/2) = 1024 => array.length
  values between 0,255
 */
-export function getAudioSpectrumAudioA(){
+export function getAudioSpectrumAudioA() {
     let data = audioA.getAudioFrequencyData();
-  //  console.log("frequency[250]: " + data[250]);
-    if(audioAPlaying){
+    dataArray.set(data); // Update dataArray with audioA data
+    if (audioAPlaying) {
         requestAnimationFrame(getAudioSpectrumAudioA);
     }
 }
@@ -181,10 +181,10 @@ Gets the Spectrum as an array
  fftsize/2 (2048/2) = 1024 => array.length
  values between 0,255
 */
-export function getAudioSpectrumAudioB(){
+export function getAudioSpectrumAudioB() {
     let data = audioB.getAudioFrequencyData();
-    //console.log("frequency[250] from B: " + data[250]);
-    if(audioBPlaying){
+    dataArrayB.set(data); // Update dataArrayB with audioB data
+    if (audioBPlaying) {
         requestAnimationFrame(getAudioSpectrumAudioB);
     }
 }
