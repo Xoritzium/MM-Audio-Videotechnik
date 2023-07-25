@@ -20,13 +20,9 @@ import * as audioController from "./audioController.js"
   let analyser = audioCtx.createAnalyser()
   analyser.fftSize = 8192
   let bufferLength = analyser.frequencyBinCount
-  let dataArrayA = new Uint8Array(bufferLength);
-  let dataArrayB = new Uint8Array(bufferLength);
+  let dataArray = new Uint8Array(bufferLength)
   analyser.getByteTimeDomainData(dataArray)
   track.connect(analyser).connect(audioCtx.destination)
-
-analyser.getByteFrequencyData(dataArray);
-analyser.getByteFrequencyData(dataArrayB);
   
   //creating array with lower and upper bounds of subBass, bass, lowerMid, mid, higherMid, presence and brilliance 
   const frequencySpectrum = []
@@ -178,26 +174,26 @@ analyser.getByteFrequencyData(dataArrayB);
   
     
     //sub bass
-    drawFunction(canvasCtx[0], dataArrayA, 3.5, subBassColor, subBassArea, subBassFrequency, 40 , false) 
-    drawFunction(canvasCtx[1], dataArrayB, 3.5, subBassColor, subBassArea, subBassFrequency, 40 , true) 
+    drawFunction(canvasCtx[0], dataArray, 3.5, subBassColor, subBassArea, subBassFrequency, 40 , false) 
+    drawFunction(canvasCtx[1], dataArray, 3.5, subBassColor, subBassArea, subBassFrequency, 40 , true) 
     //bass
-    drawFunction(canvasCtx[0], dataArrayA, 3, bassColor, bassArea, bassFrequency, 35, false) 
-    drawFunction(canvasCtx[1], dataArrayB, 3, bassColor, bassArea, bassFrequency, 35, true) 
+    drawFunction(canvasCtx[0], dataArray, 3, bassColor, bassArea, bassFrequency, 35, false) 
+    drawFunction(canvasCtx[1], dataArray, 3, bassColor, bassArea, bassFrequency, 35, true) 
     //lowmid
-    drawFunction(canvasCtx[0], dataArrayA, 2.5, lowerMidColor, lowerMidArea, lowerMidFrequency, 30, false) 
-    drawFunction(canvasCtx[1], dataArrayB, 2.5, lowerMidColor, lowerMidArea, lowerMidFrequency, 30, true) 
+    drawFunction(canvasCtx[0], dataArray, 2.5, lowerMidColor, lowerMidArea, lowerMidFrequency, 30, false) 
+    drawFunction(canvasCtx[1], dataArray, 2.5, lowerMidColor, lowerMidArea, lowerMidFrequency, 30, true) 
     //mid
-    drawFunction(canvasCtx[0], dataArrayA, 2, midColor, midArea, midFrequency, 25, false) 
-    drawFunction(canvasCtx[1], dataArrayB, 2, midColor, midArea, midFrequency, 25, true) 
+    drawFunction(canvasCtx[0], dataArray, 2, midColor, midArea, midFrequency, 25, false) 
+    drawFunction(canvasCtx[1], dataArray, 2, midColor, midArea, midFrequency, 25, true) 
     //highmid
-    drawFunction(canvasCtx[0], dataArrayA, 1.5, higherMidColor, higherMidArea, higherMidFrequency, 20, false) 
-    drawFunction(canvasCtx[1], dataArrayB, 1.5, higherMidColor, higherMidArea, higherMidFrequency, 20, true) 
+    drawFunction(canvasCtx[0], dataArray, 1.5, higherMidColor, higherMidArea, higherMidFrequency, 20, false) 
+    drawFunction(canvasCtx[1], dataArray, 1.5, higherMidColor, higherMidArea, higherMidFrequency, 20, true) 
     //presence
-    drawFunction(canvasCtx[0], dataArrayA, 1, presenceColor, presenceArea, presenceFrequency, 15, false) 
-    drawFunction(canvasCtx[1], dataArrayB, 1, presenceColor, presenceArea, presenceFrequency, 15, true)
+    drawFunction(canvasCtx[0], dataArray, 1, presenceColor, presenceArea, presenceFrequency, 15, false) 
+    drawFunction(canvasCtx[1], dataArray, 1, presenceColor, presenceArea, presenceFrequency, 15, true)
     //brilliance
-    drawFunction(canvasCtx[0], dataArrayA, 0.5, brillianceColor, brillianceArea, brillianceFrequency, 10, false) 
-    drawFunction(canvasCtx[1], dataArrayB, 0.5, brillianceColor, brillianceArea, brillianceFrequency, 10, true)
+    drawFunction(canvasCtx[0], dataArray, 0.5, brillianceColor, brillianceArea, brillianceFrequency, 10, false) 
+    drawFunction(canvasCtx[1], dataArray, 0.5, brillianceColor, brillianceArea, brillianceFrequency, 10, true)
     
     x += 1;
 
@@ -205,4 +201,3 @@ analyser.getByteFrequencyData(dataArrayB);
   }
 
   draw()
-
