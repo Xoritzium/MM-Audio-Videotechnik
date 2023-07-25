@@ -420,7 +420,7 @@ body {
 }
 
 /* ////////////////////////////////////////////// rounded toggle switch */
-label[class^="switchVisualization"] {
+label[class^="switchFrequencyBand"] {
     position: relative;
     width: 60px;
     height: 34px;
@@ -477,4 +477,22 @@ input:checked+.slider:before {
     border-radius: 80px;
     width: 95%;
     height: 90%;
+    display: flex;
+}
+
+.areaVisualizerCanvas {
+    flex: 1;
+    background: inherit; 
+    border-radius:  80px 0 0 80px;
+    opacity: 0.9;
+    width: 50%;
+    height: 100%;
+}
+
+.canvas1 {
+    border-radius:  80px 0 0 80px;
+}
+
+.canvas2 {
+    border-radius:  0 80px 80px 0;
 }

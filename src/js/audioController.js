@@ -1,5 +1,6 @@
 import * as userInterface from "./index.js";
 import AudioPlayer from "./audioPlayer.js";
+import * as audioVisualizer from "./audioVisualizer.js"
 
 export let audioAPlaying = false;
 export let audioAPlaybackSpeed = 1;
@@ -16,6 +17,7 @@ let skipAmount = 5;
 let audioA = new AudioPlayer("A");
 let audioB = new AudioPlayer("B");
 
+const dropBox = document.getElementById('dragBoxA');
 
 
 // -------------------------------------- audio A
@@ -112,8 +114,6 @@ export function crossfade(event) {
     audioB.changeVolume(value);
 }
 
-
-
 // -------------------------------------- audio B
 /**
  * Plays audio B.
@@ -135,8 +135,6 @@ export function pauseAudioB() {
     userInterface.switchButtonPlayAudioB();
     console.log('pause audio b ' + audioBPlaying);
     audioB.pauseAudio();
-    
-
 }
 /**
  * Skips backward audio B.
@@ -203,9 +201,18 @@ export function allowDropForAudio(event) {
 
 // get drop from audio A
 export function getAudioForA(event) {
+    
     event.preventDefault();
     const files = event.dataTransfer.files;
+
     console.log("files dropped audio A: " + files.length);
+
+    /*
+    if (typeof file != 'undefined') {
+        audioA.setNewAudio(file);
+    }
+    */
+    
     if (files.length > 0) {
         let title = audioA.setNewAudio(files[0]);
         userInterface.changeTitleAudioA(title);
@@ -213,6 +220,7 @@ export function getAudioForA(event) {
     } else {
         alert("no audio given");
     }
+    
 
 }
 
@@ -232,7 +240,6 @@ export function getAudioForB(event) {
         alert("no audio given");
     }
 }
-
 //change
 // audio A postion changer
 const canvasPositionAudioA = document.getElementById("canvasPositionIndicatorAudioA");

@@ -1,4 +1,5 @@
 import * as audioController from "./audioController.js"
+import * as audioVisualizer from "./audioVisualizer.js"
 
 // -------------------------------------- buttons audio A
 const buttonPlayAudioA = document.querySelector('.buttonPlayAudioA');
@@ -51,8 +52,8 @@ volumeSliderAudioA.addEventListener('input', audioController.changeVolumeAudioA)
 dragNdropAudioA.addEventListener('dragover', audioController.allowDropForAudio);
 dragNdropAudioA.addEventListener('drop', audioController.getAudioForA);
 
-dragNdropAudioB.addEventListener('dragover', audioController.allowDropForAudio, false);
-dragNdropAudioB.addEventListener('drop', audioController.getAudioForB, false);
+dragNdropAudioB.addEventListener('dragover', audioController.allowDropForAudio);
+dragNdropAudioB.addEventListener('drop', audioController.getAudioForB);
 
 
 // -------------------------------------- event listeners for buttons audio B
@@ -170,18 +171,28 @@ playbackSpeedAudioB.forEach(
  * Adds an event listener for all visualization switches.
  * Retrieves the state of that corresponding switch.
  */
-switches.forEach(
+/**switches.forEach(
     (checkbox, index) => {
         checkbox.addEventListener('change', () => {
+            
             if (checkbox.checked) {
-                console.log(`visualization ${index + 1} activated`);
-                // visualization control
+                document.querySelectorAll('.fxMenu input[type="checkbox"]:checked')
+                .forEach(activeSwitch => {
+                    if (activeSwitch.getAttribute('id') != checkbox.getAttribute('id'))
+                        activeSwitch.checked = false;
+                });
+                console.log("visualization " + (index+1) + " enabeld");
+                audioVisualizer.setVisualizationOption((index+1));
             } else {
-                console.log(`visualization ${index + 1} deactivated`);
-                // visualization control
+                if (document.querySelectorAll('.fxMenu input[type="checkbox"]:checked').length == 0){
+                    audioVisualizer.setVisualizationOption(9);
+                   console.log("visualizer deactivated");
+                }
+                   
+
             }
         });
-    });
+    }); */
 /**
  * Adds an event listener for all color pickers.
  * Retrieves the corresponding picked color.
@@ -191,7 +202,6 @@ colorInputs.forEach(
         colorInput.addEventListener('input', () => {
             const color = colorInput.value;
             console.log(`color for visualization ${index + 1}: ${color}`);
-            // visualization control
         });
     });
 // -------------------------------------- fx menu drag control
@@ -224,6 +234,20 @@ function drag(event) {
 }
 
 //**********Title Change Audio */
+
+function updateVisualizationColor(index, color) {
+    const canvas = index === 1 ? canvasCtx : canvasCtx2;
+    canvas.strokeStyle = color;
+  }
+  
+  // Event listener for color pickers to handle real-time color changes
+  colorInputs.forEach((colorInput, index) => {
+    colorInput.addEventListener('input', () => {
+      const color = colorInput.value;
+      console.log(`color for visualization ${index + 1}: ${color}`);
+      updateVisualizationColor(index + 1, color); // Update the color of the visualization
+    });
+  });
 
 export function changeTitleAudioA(newTitle) {
     const title = document.querySelector('.titleBoxAudioA');

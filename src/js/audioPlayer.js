@@ -16,6 +16,7 @@ class AudioPlayer {
         // initializing the current playback time to 0
         this.currentPlaybackTime = 0;
         // change end
+
     }
 
 
@@ -63,6 +64,7 @@ class AudioPlayer {
                 analyzeFrequencySpectrum(audioElement, "canvasFrequSpectrumAudioB");
             }
             //change end
+
         }
 
         return audioFile.name;
@@ -80,8 +82,12 @@ class AudioPlayer {
     */
     playAudio() {
 
-        if (!this.audioBuffer) return;
+        if (!this.audioBuffer) {
+            return;
+        }
         console.log("play");
+        
+        
 
         if (this.audioContext.state === 'suspended') {
             this.audioContext.resume();
@@ -225,6 +231,7 @@ class AudioPlayer {
     getAudioFrequencyData() {
         this.analyserNode.getByteFrequencyData(this.frequencyDataArray);
         return this.frequencyDataArray;
+
     }
     /**
      * Animates a playback indicator of the currently played audio.
