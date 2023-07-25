@@ -459,9 +459,17 @@ input:checked+.slider:before {
 
 .areaVisualizerCanvas {
     flex: 1;
-    background: var(--grey); 
-    border-radius: 80px;
+    background: inherit; 
+    border-radius:  80px 0 0 80px;
     opacity: 0.9;
     width: 50%;
     height: 100%;
+}
+
+.canvas1 {
+    border-radius:  80px 0 0 80px;
+}
+
+.canvas2 {
+    border-radius:  0 80px 80px 0;
 }
