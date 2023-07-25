@@ -232,22 +232,29 @@ function drag(event) {
         fxMenu.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
     }
 }
+function setVolumeToFull() {
+    volumeSliderAudioA.value = 100;
+    volumeSliderAudioB.value = 100;
+}
+
+// Call the function to set the volume sliders to full volume
+setVolumeToFull();
 
 //**********Title Change Audio */
 
 function updateVisualizationColor(index, color) {
     const canvas = index === 1 ? canvasCtx : canvasCtx2;
     canvas.strokeStyle = color;
-  }
-  
-  // Event listener for color pickers to handle real-time color changes
-  colorInputs.forEach((colorInput, index) => {
+}
+
+// Event listener for color pickers to handle real-time color changes
+colorInputs.forEach((colorInput, index) => {
     colorInput.addEventListener('input', () => {
-      const color = colorInput.value;
-      console.log(`color for visualization ${index + 1}: ${color}`);
-      updateVisualizationColor(index + 1, color); // Update the color of the visualization
+        const color = colorInput.value;
+        console.log(`color for visualization ${index + 1}: ${color}`);
+        updateVisualizationColor(index + 1, color); // Update the color of the visualization
     });
-  });
+});
 
 export function changeTitleAudioA(newTitle) {
     const title = document.querySelector('.titleBoxAudioA');
