@@ -130,7 +130,7 @@ class AudioPlayer {
     changeVolume(value) {
         this.audioVolume = value / 100;
         this.audioVolumeGainNode.gain.value = this.audioVolume;
-        console.log("new gain: " + this.audioVolumeGainNode.gain.value);
+       // console.log("new gain: " + this.audioVolumeGainNode.gain.value);
     }
 
     handleCrossFader(val) {
