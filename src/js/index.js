@@ -167,6 +167,8 @@ playbackSpeedAudioB.forEach(
         });
     }
 );
+
+
 /**
  * Adds an event listener for all visualization switches.
  * Retrieves the state of that corresponding switch.
@@ -193,6 +195,8 @@ playbackSpeedAudioB.forEach(
             }
         });
     }); */
+
+
 /**
  * Adds an event listener for all color pickers.
  * Retrieves the corresponding picked color.
@@ -202,6 +206,7 @@ colorInputs.forEach(
         colorInput.addEventListener('input', () => {
             const color = colorInput.value;
             console.log(`color for visualization ${index + 1}: ${color}`);
+            audioVisualizer.setColor(index, color)
         });
     });
 // -------------------------------------- fx menu drag control
@@ -241,20 +246,6 @@ function setVolumeToFull() {
 setVolumeToFull();
 
 //**********Title Change Audio */
-
-function updateVisualizationColor(index, color) {
-    const canvas = index === 1 ? canvasCtx : canvasCtx2;
-    canvas.strokeStyle = color;
-}
-
-// Event listener for color pickers to handle real-time color changes
-colorInputs.forEach((colorInput, index) => {
-    colorInput.addEventListener('input', () => {
-        const color = colorInput.value;
-        console.log(`color for visualization ${index + 1}: ${color}`);
-        updateVisualizationColor(index + 1, color); 
-    });
-});
 
 export function changeTitleAudioA(newTitle) {
     const title = document.querySelector('.titleBoxAudioA');
