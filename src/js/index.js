@@ -234,6 +234,13 @@ function drag(event) {
 }
 
 //**********Title Change Audio */
+function setVolumeToFull() {
+    volumeSliderAudioA.value = 100;
+    volumeSliderAudioB.value = 100;
+  }
+  
+  // Call the function to set the volume sliders to full volume
+setVolumeToFull();
 
 function updateVisualizationColor(index, color) {
     const canvas = index === 1 ? canvasCtx : canvasCtx2;
@@ -248,6 +255,7 @@ function updateVisualizationColor(index, color) {
       updateVisualizationColor(index + 1, color); // Update the color of the visualization
     });
   });
+
 
 export function changeTitleAudioA(newTitle) {
     const title = document.querySelector('.titleBoxAudioA');

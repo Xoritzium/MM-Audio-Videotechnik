@@ -200,46 +200,23 @@ export function allowDropForAudio(event) {
 
 
 // get drop from audio A
-export function getAudioForA(event) {
-    
-    event.preventDefault();
-    const files = event.dataTransfer.files;
-
-    console.log("files dropped audio A: " + files.length);
-
-    /*
-    if (typeof file != 'undefined') {
-        audioA.setNewAudio(file);
-    }
-    */
-    
-    if (files.length > 0) {
-        let title = audioA.setNewAudio(files[0]);
-        userInterface.changeTitleAudioA(title);
-
-    } else {
-        alert("no audio given");
-    }
-    
-
-}
-
-
-/**
- * get drop from audio B
- */
-export function getAudioForB(event) {
-    event.preventDefault();
-    const files = event.dataTransfer.files;
-    console.log("files dropped audio B: " + files.length);
-    if (files.length > 0) {
-        let title = audioB.setNewAudio(files[0]);
-        userInterface.changeTitleAudioB(title);
-
-    } else {
-        alert("no audio given");
+export function getAudioSpectrumAudioA() {
+    let data = audioA.getAudioFrequencyData();
+    dataArray.set(data); // Update dataArray with audioA data
+    if (audioAPlaying) {
+        requestAnimationFrame(getAudioSpectrumAudioA);
     }
 }
+
+// Add getAudioSpectrumAudioB()
+export function getAudioSpectrumAudioB() {
+    let data = audioB.getAudioFrequencyData();
+    dataArrayB.set(data); // Update dataArrayB with audioB data
+    if (audioBPlaying) {
+        requestAnimationFrame(getAudioSpectrumAudioB);
+    }
+}
+
 //change
 // audio A postion changer
 const canvasPositionAudioA = document.getElementById("canvasPositionIndicatorAudioA");
