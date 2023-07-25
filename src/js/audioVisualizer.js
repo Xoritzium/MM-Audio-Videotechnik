@@ -19,6 +19,19 @@ for (let i = 0; i < canvasElements.length; i++) {
   canvasCtx.push(canvasElements[i].getContext("2d")) 
 }
 
+let drawFrequency = []
+
+function initDrawFrequency() {
+  let switches = document.querySelectorAll('.fxMenu input[type="checkbox"]')
+  for (let i = 0; i < switches.length; i++) {
+    drawFrequency.push(switches[i].checked)
+  }
+}
+
+export function setDrawFrequency(index, bool) {
+  drawFrequency[index] = bool
+}
+
 let colors = []
 
 function initColors() {
@@ -115,7 +128,9 @@ function draw() {
 
     for (let o = 0; o < frequencyAreas.length; o++){
       let tmpFreq = (o+1) * freq
-      drawFunction(canvasCtx[i], dataArray, lineWidth, colors[o],frequencyAreas[o], tmpFreq, offset, reverted)
+      if (drawFrequency[o]) {
+        drawFunction(canvasCtx[i], dataArray, lineWidth, colors[o],frequencyAreas[o], tmpFreq, offset, reverted)
+      }
       lineWidth -= 0.5
       offset -= 5
     }
@@ -126,6 +141,7 @@ function draw() {
   requestAnimationFrame(draw);
 }
 
+initDrawFrequency()
 initColors()
 
 draw()

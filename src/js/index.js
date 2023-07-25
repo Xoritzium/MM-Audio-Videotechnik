@@ -170,31 +170,15 @@ playbackSpeedAudioB.forEach(
 
 
 /**
- * Adds an event listener for all visualization switches.
+ * Adds an event listener for all frequency band switches.
  * Retrieves the state of that corresponding switch.
  */
-/**switches.forEach(
+switches.forEach(
     (checkbox, index) => {
-        checkbox.addEventListener('change', () => {
-            
-            if (checkbox.checked) {
-                document.querySelectorAll('.fxMenu input[type="checkbox"]:checked')
-                .forEach(activeSwitch => {
-                    if (activeSwitch.getAttribute('id') != checkbox.getAttribute('id'))
-                        activeSwitch.checked = false;
-                });
-                console.log("visualization " + (index+1) + " enabeld");
-                audioVisualizer.setVisualizationOption((index+1));
-            } else {
-                if (document.querySelectorAll('.fxMenu input[type="checkbox"]:checked').length == 0){
-                    audioVisualizer.setVisualizationOption(9);
-                   console.log("visualizer deactivated");
-                }
-                   
-
-            }
+        checkbox.addEventListener('change', () => { 
+            audioVisualizer.setDrawFrequency(index, checkbox.checked)
         });
-    }); */
+    }); 
 
 
 /**
