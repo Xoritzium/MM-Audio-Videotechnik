@@ -210,7 +210,7 @@ function startDragging(event) {
     initialY = event.clientY - offsetY;
 }
 
-function stopDragging() {
+function stopDragginFXg() {
     isDragging = false;
 }
 
@@ -227,14 +227,8 @@ function setVolumeToFull() {
 }
 
 //**********Title Change Audio */
-function setVolumeToFull() {
-    volumeSliderAudioA.value = 100;
-    volumeSliderAudioB.value = 100;
-  }
   
   // Call the function to set the volume sliders to full volume
-setVolumeToFull();
-
 setVolumeToFull();
 
 export function changeTitleAudioA(newTitle) {
