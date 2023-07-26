@@ -1,9 +1,7 @@
-// change
 import analyzeFrequencySpectrum from "./frequencySpectrumAnalyzer.js";
-//change end
+
 class AudioPlayer {
 
-    //change
     /**
      * 
      * @param {string} audioType "A" or "B"
@@ -53,7 +51,7 @@ class AudioPlayer {
             this.audioContext.decodeAudioData(this.audioBuffer).then(
                 this.setBuffer.bind(this));
 
-            // change
+
             // creating a temporary object URL for the audio file to match the parameters
             // of analyzeFrequencySpectrum
             const audioElement = new Audio();
@@ -63,7 +61,6 @@ class AudioPlayer {
             } else if (this.audioType == "B") {
                 analyzeFrequencySpectrum(audioElement, "canvasFrequSpectrumAudioB");
             }
-            //change end
 
         }
 
@@ -165,11 +162,8 @@ class AudioPlayer {
      
         this.updatePlaybackIndicator();
     }
-    // orig:
-    /**
-     * 
-     * @param {float} amount normalized value between 0,1
-     */
+   
+   
     /*   skipToSpecificLocation(amount) {
           if (amount < 0 || amount > 1) {
               throw new Error("Amount has to be between [0,1]!")
@@ -188,7 +182,12 @@ class AudioPlayer {
           }
   
       } */
-    /* change */
+
+
+    /**
+     * 
+     * @param {float} amount normalized value between 0,1
+     */
     skipToSpecificLocation(amount) {
         if (amount < 0 || amount > 1) {
             throw new Error("Amount has to be between [0,1]!");
@@ -222,7 +221,7 @@ class AudioPlayer {
             this.updatePlaybackIndicator();
         }
     }
-    /* change end */
+
 
 
     // returns the frequency of the current playing song.
