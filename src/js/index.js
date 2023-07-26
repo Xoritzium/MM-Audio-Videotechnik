@@ -226,10 +226,16 @@ function setVolumeToFull() {
     volumeSliderAudioB.value = 100;
 }
 
-
+//**********Title Change Audio */
+function setVolumeToFull() {
+    volumeSliderAudioA.value = 100;
+    volumeSliderAudioB.value = 100;
+  }
+  
+  // Call the function to set the volume sliders to full volume
 setVolumeToFull();
 
-//**********Title Change Audio */
+setVolumeToFull();
 
 export function changeTitleAudioA(newTitle) {
     const title = document.querySelector('.titleBoxAudioA');

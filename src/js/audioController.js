@@ -2,6 +2,8 @@ import * as userInterface from "./index.js";
 import AudioPlayer from "./audioPlayer.js";
 import * as audioVisualizer from "./audioVisualizer.js"
 
+
+
 export let audioAPlaying = false;
 export let audioAPlaybackSpeed = 1;
 export let audioAVolume = 50;
@@ -93,9 +95,10 @@ Gets the Spectrum as an array
  values between 0,255
 */
 export function getAudioSpectrumAudioA(){
-    let data = audioA.getAudioFrequencyData();
-  //  console.log("frequency[250]: " + data[250]);
     if(audioAPlaying){
+        let data = audioA.getAudioFrequencyData();
+       // console.log("frequency[250]: " + data[250]);
+        audioVisualizer.drawAudioA(data);
         requestAnimationFrame(getAudioSpectrumAudioA);
     }
 }
@@ -182,9 +185,10 @@ Gets the Spectrum as an array
  values between 0,255
 */
 export function getAudioSpectrumAudioB(){
-    let data = audioB.getAudioFrequencyData();
     //console.log("frequency[250] from B: " + data[250]);
     if(audioBPlaying){
+        let data = audioB.getAudioFrequencyData();
+        audioVisualizer.drawAudioB(data);
         requestAnimationFrame(getAudioSpectrumAudioB);
     }
 }
