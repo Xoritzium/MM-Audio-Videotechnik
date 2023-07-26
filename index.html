@@ -60,60 +60,68 @@
                 <div class="buttonFX">FX</div>
                 <div class="fxMenu">
                     <div class="line">
-                        <span class="switchText">Sub Bass</span>
-                        <label class="switchFrequencyBand1">
-                            <input type="checkbox" id="switchSubBass" value="0" checked>
+                        <span class="switchText">Phantom Bass</span>
+                        <label class="switchFrequencyBand0">
+                            <input type="checkbox" id="switchPresence" value="0" checked>
                             <span class="slider"></span>
                         </label>
-                        <input type="color" id="colorpickerSubBass" value="#ff0000">
+                        <input type="color" id="colorpickerPresence" ref="0" value="#00FFFF">
+                    </div>
+                    <div class="line">
+                        <span class="switchText">Sub Bass</span>
+                        <label class="switchFrequencyBand1">
+                            <input type="checkbox" id="switchSubBass" value="1" checked>
+                            <span class="slider"></span>
+                        </label>
+                        <input type="color" id="colorpickerSubBass" ref="1" value="#FF0000">
                     </div>
                     <div class="line">
                         <span class="switchText">Bass</span>
                         <label class="switchFrequencyBand2">
-                            <input type="checkbox" id="switchBass" value="1" checked>
+                            <input type="checkbox" id="switchBass" value="2" checked>
                             <span class="slider"></span>
                         </label>
-                        <input type="color" id="colorpickerBass" value="#FF9000">
+                        <input type="color" id="colorpickerBass" ref="2" value="#FFA500">
                     </div>
                     <div class="line">
                         <span class="switchText">Low Mid</span>
                         <label class="switchFrequencyBand3">
-                            <input type="checkbox" id="switchLowMid" value="2" checked>
+                            <input type="checkbox" id="switchLowMid" value="3" checked>
                             <span class="slider"></span>
                         </label>
-                        <input type="color" id="colorpickerLowMid" value="#ffff00">
+                        <input type="color" id="colorpickerLowMid" ref="3" value="#FFFF00">
                     </div>
                     <div class="line">
                         <span class="switchText">Mid</span>
                         <label class="switchFrequencyBand4">
-                            <input type="checkbox" id="switchMid" value="3" checked>
+                            <input type="checkbox" id="switchMid" value="4" checked>
                             <span class="slider"></span>
                         </label>
-                        <input type="color" id="colorpickerMid" value="#0F7209">
+                        <input type="color" id="colorpickerMid" ref="4" value="#008000">
                     </div>
                     <div class="line">
                         <span class="switchText">High Mid</span>
                         <label class="switchFrequencyBand5">
-                            <input type="checkbox" id="switchHighMid" value="4" checked>
+                            <input type="checkbox" id="switchHighMid" value="5" checked>
                             <span class="slider"></span>
                         </label>
-                        <input type="color" id="colorpickerHighMid" value="#CCFF00">
+                        <input type="color" id="colorpickerHighMid" ref="5" value="#00FFFF">
                     </div>
                     <div class="line">
                         <span class="switchText">Presence</span>
                         <label class="switchFrequencyBand6">
-                            <input type="checkbox" id="switchPresence" value="5" checked>
+                            <input type="checkbox" id="switchPresence" value="6" checked>
                             <span class="slider"></span>
                         </label>
-                        <input type="color" id="colorpickerPresence" value="#0000FF">
+                        <input type="color" id="colorpickerPresence" ref="6" value="#800080">
                     </div>
                     <div class="line">
                         <span class="switchText">Brilliance</span>
                         <label class="switchFrequencyBand7">
-                            <input type="checkbox" id="switchBrilliance" value="6" checked>
+                            <input type="checkbox" id="switchBrilliance" value="7" checked>
                             <span class="slider"></span>
                         </label>
-                        <input type="color" id="colorpickerBrilliance" value="#00FFFF">
+                        <input type="color" id="colorpickerBrilliance" ref="7" value="#A020F0">
                     </div>
                 </div>
             </div>
@@ -163,8 +171,25 @@
         <div class="areaBottom">
             <div class="areaVisualizerWindow" id="VisualizerWindow">
                 <canvas class="areaVisualizerCanvas canvas1"></canvas>
+                <div class="scale">
+                    <div class="scaleLine"></div>
+                    <div class="scaleLabels">
+                        <div class="scaleLabel">10</div>
+                        <div class="scaleLabel">8</div>
+                        <div class="scaleLabel">6</div>
+                        <div class="scaleLabel">4</div>
+                        <div class="scaleLabel">2</div>
+                        <div class="scaleLabel">0</div>
+                        <div class="scaleLabel">2</div>
+                        <div class="scaleLabel">4</div>
+                        <div class="scaleLabel">6</div>
+                        <div class="scaleLabel">8</div>
+                        <div class="scaleLabel">10</div>
+                    </div>
+                </div>
                 <canvas class="areaVisualizerCanvas canvas2"></canvas>
             </div>
+            
         </div>
     </div>
     <audio controls id="audioTest" src="./Technobase - Mutter der Mann mit dem Koks ist da .mp3"></audio>

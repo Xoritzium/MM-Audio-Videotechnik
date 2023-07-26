@@ -167,32 +167,20 @@ playbackSpeedAudioB.forEach(
         });
     }
 );
+
+
 /**
- * Adds an event listener for all visualization switches.
+ * Adds an event listener for all frequency band switches.
  * Retrieves the state of that corresponding switch.
  */
-/**switches.forEach(
+switches.forEach(
     (checkbox, index) => {
-        checkbox.addEventListener('change', () => {
-            
-            if (checkbox.checked) {
-                document.querySelectorAll('.fxMenu input[type="checkbox"]:checked')
-                .forEach(activeSwitch => {
-                    if (activeSwitch.getAttribute('id') != checkbox.getAttribute('id'))
-                        activeSwitch.checked = false;
-                });
-                console.log("visualization " + (index+1) + " enabeld");
-                audioVisualizer.setVisualizationOption((index+1));
-            } else {
-                if (document.querySelectorAll('.fxMenu input[type="checkbox"]:checked').length == 0){
-                    audioVisualizer.setVisualizationOption(9);
-                   console.log("visualizer deactivated");
-                }
-                   
-
-            }
+        checkbox.addEventListener('change', () => { 
+            audioVisualizer.setDrawFrequency(index, checkbox.checked)
         });
-    }); */
+    }); 
+
+
 /**
  * Adds an event listener for all color pickers.
  * Retrieves the corresponding picked color.
@@ -202,6 +190,7 @@ colorInputs.forEach(
         colorInput.addEventListener('input', () => {
             const color = colorInput.value;
             console.log(`color for visualization ${index + 1}: ${color}`);
+            audioVisualizer.setColor(index, color)
         });
     });
 // -------------------------------------- fx menu drag control
@@ -221,7 +210,7 @@ function startDragging(event) {
     initialY = event.clientY - offsetY;
 }
 
-function stopDragging() {
+function stopDragginFXg() {
     isDragging = false;
 }
 
@@ -232,30 +221,15 @@ function drag(event) {
         fxMenu.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
     }
 }
-
-//**********Title Change Audio */
 function setVolumeToFull() {
     volumeSliderAudioA.value = 100;
     volumeSliderAudioB.value = 100;
-  }
+}
+
+//**********Title Change Audio */
   
   // Call the function to set the volume sliders to full volume
 setVolumeToFull();
-
-function updateVisualizationColor(index, color) {
-    const canvas = index === 1 ? canvasCtx : canvasCtx2;
-    canvas.strokeStyle = color;
-  }
-  
-  // Event listener for color pickers to handle real-time color changes
-  colorInputs.forEach((colorInput, index) => {
-    colorInput.addEventListener('input', () => {
-      const color = colorInput.value;
-      console.log(`color for visualization ${index + 1}: ${color}`);
-      updateVisualizationColor(index + 1, color); // Update the color of the visualization
-    });
-  });
-
 
 export function changeTitleAudioA(newTitle) {
     const title = document.querySelector('.titleBoxAudioA');
