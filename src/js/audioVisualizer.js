@@ -10,8 +10,11 @@ let canvasWidth = canvasElements[0].width
 // set offset
 const yOffset = canvasHeight / 2
 
-// set 
+// set x
 let x = 0  
+
+// set bufferlength
+let bufferLength = 1024
 
 // get canvas contexts and store them in array
 const canvasCtx = []
@@ -19,8 +22,10 @@ for (let i = 0; i < canvasElements.length; i++) {
   canvasCtx.push(canvasElements[i].getContext("2d")) 
 }
 
+// array which holds information if a specific frequency band should be drawn or not
 let drawFrequency = []
 
+//
 function initDrawFrequency() {
   let switches = document.querySelectorAll('.fxMenu input[type="checkbox"]')
   for (let i = 0; i < switches.length; i++) {
@@ -135,5 +140,6 @@ export function draw(dataA, dataB) {
 }
 
 initDrawFrequency()
+
 initColors()
 
