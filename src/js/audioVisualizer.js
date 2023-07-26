@@ -25,7 +25,7 @@ for (let i = 0; i < canvasElements.length; i++) {
 // array which holds information if a specific frequency band should be drawn or not
 let drawFrequency = []
 
-//
+//get initial values of frequency switches
 function initDrawFrequency() {
   let switches = document.querySelectorAll('.fxMenu input[type="checkbox"]')
   for (let i = 0; i < switches.length; i++) {
@@ -33,12 +33,15 @@ function initDrawFrequency() {
   }
 }
 
+// enable/disable frequency drawings
 export function setDrawFrequency(index, bool) {
   drawFrequency[index] = bool
 }
 
+// array for holding colors of the drawings
 let colors = []
 
+// get initial colors of the color picker
 function initColors() {
   let colorsPicker = document.querySelectorAll('input[type=color]')
   for (let i = 0; i < colorsPicker.length; i++) {
@@ -46,6 +49,7 @@ function initColors() {
   }
 }
 
+// set color for drawing
 export function setColor(index, color) {
   colors[index] = color
 }
@@ -55,7 +59,7 @@ const frequencySpectrum = []
 frequencySpectrum.push([0,16]) 
 frequencySpectrum.push([17,60])
 frequencySpectrum.push([61,250])
-frequencySpectrum.push([250, 500])
+frequencySpectrum.p* bufferLengthush([250, 500])
 frequencySpectrum.push([500, 2000])
 frequencySpectrum.push([2000, 4000])
 frequencySpectrum.push([4000, 6000])
@@ -79,6 +83,7 @@ for (let i = 0; i < frequencySpectrum.length; i++) {
   frequencyAreas.push([lowerBound, upperBound])
 }
 
+// draws sinus function with given dataArray
 function drawFunction(canvasCtx, dataArray, lineWidth, lineColor, frequencyRange, frequency, functionOffset, reverted) {
   canvasCtx.lineWidth = lineWidth
   canvasCtx.strokeStyle = lineColor
@@ -103,6 +108,7 @@ function drawFunction(canvasCtx, dataArray, lineWidth, lineColor, frequencyRange
   }
 }
 
+// function which loops through the canvas contexts and frequency areas to draw the sin functions
 export function draw(dataA, dataB) {
   analyser.getByteFrequencyData(dataArray)
   
