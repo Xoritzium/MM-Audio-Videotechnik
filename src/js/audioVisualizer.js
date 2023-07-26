@@ -45,28 +45,16 @@ export function setColor(index, color) {
   colors[index] = color
 }
 
-// setup audio context for testing
-let audioCtx = new window.AudioContext()
-let audio = document.getElementById("audioTest")
-let track = audioCtx.createMediaElementSource(audio)
-let analyser = audioCtx.createAnalyser()
-analyser.fftSize = 4096
-let bufferLength = analyser.frequencyBinCount
-let dataArray = new Uint8Array(bufferLength)
-analyser.getByteTimeDomainData(dataArray)
-track.connect(analyser).connect(audioCtx.destination)
-
-
 //creating array with lower and upper bounds of subBass, bass, lowerMid, mid, higherMid, presence and brilliance 
 const frequencySpectrum = []
-frequencySpectrum.push([0,16]) // up for debate, included it to get whole frequency spectrum
+frequencySpectrum.push([0,16]) 
 frequencySpectrum.push([17,60])
 frequencySpectrum.push([61,250])
 frequencySpectrum.push([250, 500])
 frequencySpectrum.push([500, 2000])
 frequencySpectrum.push([2000, 4000])
 frequencySpectrum.push([4000, 6000])
-frequencySpectrum.push([6000, 20000])
+frequencySpectrum.push([6000, 16000])
 
 //translating bounds to specific areas in the data array which should then represent the boundaries of the frequency bands in the hearable sound spectrum 
 // to do get buffer length from player
@@ -151,100 +139,4 @@ export function draw(dataA, dataB) {
 
 initDrawFrequency()
 initColors()
-
-//draw()
-
-// Draw Audio from AudioA on canvasCntx[0] -> will be called each frame
-// ich hab die Methode "draw" in drawAudioA umbenannt und anstatt dem dataArray wird der drawFunction 
-//die audioData übergeben.
-// diese Methode wird jeden Frame aufgerufen. ->vgl AudioController Methode: getAudioSpectrumAudioA
-//TODO: ->auch wenns zwei canvases sind, wird immer nur eines seperat angezeigt (probierts aus)...
-//      ->Die einzelnen Linien an und ausschalten muss noch angezeigt werden.
-  
-
-export function drawAudioA(audioData) {
- console.log("audioDataA: " + audioData[250]);
-
-
-
-  canvasCtx[0].clearRect(0, 0, canvasWidth, canvasHeight);
-  canvasCtx[1].clearRect(0, 0, canvasWidth, canvasHeight);
-  for (let i = 0; i <= 14; i++) {
-  }
-
-  const subBassColor = document.getElementById("colorpickerSubBass").value; 
-  const bassColor = document.getElementById("colorpickerBass").value;
-  const lowerMidColor = document.getElementById("colorpickerLowMid").value;
-  const midColor = document.getElementById("colorpickerMid").value;
-  const higherMidColor = document.getElementById("colorpickerHighMid").value;
-  const presenceColor = document.getElementById("colorpickerPresence").value;
-  const brillianceColor = document.getElementById("colorpickerBrilliance").value;
-
-
-  //sub bass
-  drawFunction(canvasCtx[0], audioData, 3.5, subBassColor, frequencyAreas[1], 0.014, 40, false)
-
-  //bass
-  drawFunction(canvasCtx[0], audioData, 3, bassColor, frequencyAreas[2], 0.014, 35, false)
-
-  //lowmid
-  drawFunction(canvasCtx[0], audioData, 2.5, lowerMidColor, frequencyAreas[3], 0.014, 30, false)
-
-  //mid
-  drawFunction(canvasCtx[0], audioData, 2, midColor, frequencyAreas[4], 0.014, 25, false)
-
-  //highmid
-  drawFunction(canvasCtx[0], audioData, 1.5, higherMidColor, frequencyAreas[5], 0.014, 20, false)
-
-  //presence
-  drawFunction(canvasCtx[0], audioData, 1, presenceColor, frequencyAreas[6], 0.014, 15, false)
-
-  //brilliance
-  drawFunction(canvasCtx[0], audioData, 0.5, brillianceColor, frequencyAreas[7], 0.014, 10, false)
-
-
-
-}
-
-export function drawAudioB(audioData) {
-
-console.log("audioDataB: " + dataArray[250]);
-
-  canvasCtx[0].clearRect(0, 0, canvasWidth, canvasHeight);
-  canvasCtx[1].clearRect(0, 0, canvasWidth, canvasHeight);
-
-  for (let i = 0; i <= 14; i++) {
-  }
-
-  const subBassColor = document.getElementById("colorpickerSubBass").value;
-  const bassColor = document.getElementById("colorpickerBass").value;
-  const lowerMidColor = document.getElementById("colorpickerLowMid").value;
-  const midColor = document.getElementById("colorpickerMid").value;
-  const higherMidColor = document.getElementById("colorpickerHighMid").value;
-  const presenceColor = document.getElementById("colorpickerPresence").value;
-  const brillianceColor = document.getElementById("colorpickerBrilliance").value;
-
-
-  //sub bass
-  drawFunction(canvasCtx[1], audioData, 3.5, subBassColor, subBassArea, subBassFrequency, 40, true)
-
-  //bass
-  drawFunction(canvasCtx[1], audioData, 3, bassColor, bassArea, bassFrequency, 35, false)
-
-  //lowmid
-  drawFunction(canvasCtx[1], audioData, 2.5, lowerMidColor, lowerMidArea, lowerMidFrequency, 30, true)
-
-  //mid
-  drawFunction(canvasCtx[1], audioData, 2, midColor, midArea, midFrequency, 25, false)
- 
-  //highmid
-  drawFunction(canvasCtx[1], audioData, 1.5, higherMidColor, higherMidArea, higherMidFrequency, 20, true)
-
-  //presence
-  drawFunction(canvasCtx[1], audioData, 1, presenceColor, presenceArea, presenceFrequency, 15, true)
- 
-  //brilliance
-  drawFunction(canvasCtx[1], audioData, 0.5, brillianceColor, brillianceArea, brillianceFrequency, 10, true)
-
-}
 
