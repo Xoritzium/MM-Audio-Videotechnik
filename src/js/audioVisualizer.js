@@ -59,7 +59,8 @@ track.connect(analyser).connect(audioCtx.destination)
 
 //creating array with lower and upper bounds of subBass, bass, lowerMid, mid, higherMid, presence and brilliance 
 const frequencySpectrum = []
-frequencySpectrum.push([0,60])
+frequencySpectrum.push([0,20]) // up for debate, included it to get whole frequency spectrum
+frequencySpectrum.push([20,60])
 frequencySpectrum.push([61,250])
 frequencySpectrum.push([250, 500])
 frequencySpectrum.push([500, 2000])
@@ -74,8 +75,8 @@ for (let i = 0; i < frequencySpectrum.length; i++) {
   let lowerBound;
   let upperBound;
   if (i == 0) {
-    lowerBound = frequencySpectrum[0][0]
-    upperBound = Math.round( (frequencySpectrum[0][1]/frequencySpectrum[6][1]) * bufferLength )
+    lowerBound = Math.round( (frequencySpectrum[0][0] /frequencySpectrum[6][1]) * bufferLength ) 
+    upperBound = Math.round( ((frequencySpectrum[0][1] - frequencySpectrum[0][0])/frequencySpectrum[6][1]) * bufferLength )
   } else 
     lowerBound = frequencyAreas[i-1][1] +1
   if (i+1 == frequencySpectrum.length)
@@ -83,6 +84,7 @@ for (let i = 0; i < frequencySpectrum.length; i++) {
   else if (i > 0 && i < frequencySpectrum.length) 
     upperBound = (frequencyAreas[i-1][1] + 1) + (Math.round( ((frequencySpectrum[i][1] - frequencySpectrum[i][0]) / frequencySpectrum[6][1]) * bufferLength ))
   frequencyAreas.push([lowerBound, upperBound])
+  console.log(lowerBound, upperBound)
 }
 
 function drawFunction(canvasCtx, dataArray, lineWidth, lineColor, frequencyRange, frequency, functionOffset, reverted) {
