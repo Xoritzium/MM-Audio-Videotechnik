@@ -229,6 +229,8 @@ class AudioPlayer {
     //make sure to call it every frame !
     // each array index has a value between 0 and 255.
     getAudioFrequencyData() {
+        if (this.audioContext.state === 'suspended')
+            return new Array(this.audioFrequencyDataArrayLength).fill(0)
         this.analyserNode.getByteFrequencyData(this.frequencyDataArray);
         return this.frequencyDataArray;
 

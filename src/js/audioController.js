@@ -32,7 +32,10 @@ export function playAudioA() {
     userInterface.switchButtonPlayAudioA();
     console.log('play audio a ' + audioAPlaying);
     audioA.playAudio();
-    getAudioSpectrumAudioA();
+    //if (!audioBPlaying) {
+        getAudioSpectrum();
+    //}
+    
 }
 /**
  * Pauses audio A.
@@ -94,13 +97,11 @@ Gets the Spectrum as an array
  fftsize/2 (2048/2) = 1024 => array.length
  values between 0,255
 */
-export function getAudioSpectrumAudioA(){
-    if(audioAPlaying){
-        let data = audioA.getAudioFrequencyData();
-       // console.log("frequency[250]: " + data[250]);
-        audioVisualizer.drawAudioA(data);
-        requestAnimationFrame(getAudioSpectrumAudioA);
-    }
+export function getAudioSpectrum(){
+        let dataA = audioA.getAudioFrequencyData();
+        let dataB = audioB.getAudioFrequencyData();
+        audioVisualizer.draw(dataA, dataB);
+        requestAnimationFrame(getAudioSpectrum);
 }
 
 
@@ -127,7 +128,7 @@ export function playAudioB() {
     userInterface.switchButtonPlayAudioB();
     console.log('play audio b ' + audioBPlaying);
     audioB.playAudio();
-    getAudioSpectrumAudioB();
+    getAudioSpectrum();
 }
 /**
  * Pauses audio B.

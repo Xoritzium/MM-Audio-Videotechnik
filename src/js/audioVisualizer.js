@@ -50,7 +50,7 @@ let audioCtx = new window.AudioContext()
 let audio = document.getElementById("audioTest")
 let track = audioCtx.createMediaElementSource(audio)
 let analyser = audioCtx.createAnalyser()
-analyser.fftSize = 8192
+analyser.fftSize = 4096
 let bufferLength = analyser.frequencyBinCount
 let dataArray = new Uint8Array(bufferLength)
 analyser.getByteTimeDomainData(dataArray)
@@ -59,8 +59,8 @@ track.connect(analyser).connect(audioCtx.destination)
 
 //creating array with lower and upper bounds of subBass, bass, lowerMid, mid, higherMid, presence and brilliance 
 const frequencySpectrum = []
-frequencySpectrum.push([0,20]) // up for debate, included it to get whole frequency spectrum
-frequencySpectrum.push([20,60])
+frequencySpectrum.push([0,16]) // up for debate, included it to get whole frequency spectrum
+frequencySpectrum.push([17,60])
 frequencySpectrum.push([61,250])
 frequencySpectrum.push([250, 500])
 frequencySpectrum.push([500, 2000])
@@ -82,9 +82,9 @@ for (let i = 0; i < frequencySpectrum.length; i++) {
   if (i+1 == frequencySpectrum.length)
     upperBound = bufferLength
   else if (i > 0 && i < frequencySpectrum.length) 
-    upperBound = (frequencyAreas[i-1][1] + 1) + (Math.round( ((frequencySpectrum[i][1] - frequencySpectrum[i][0]) / frequencySpectrum[6][1]) * bufferLength ))
+    upperBound = (frequencyAreas[i-1][1] + 1) + (Math.round( ((frequencySpectrum[i][1] - frequencySpectrum[i][0]) / frequencySpectrum[7][1]) * bufferLength ))
   frequencyAreas.push([lowerBound, upperBound])
-  console.log(lowerBound, upperBound)
+  //console.log(lowerBound, upperBound)
 }
 
 function drawFunction(canvasCtx, dataArray, lineWidth, lineColor, frequencyRange, frequency, functionOffset, reverted) {
@@ -111,7 +111,7 @@ function drawFunction(canvasCtx, dataArray, lineWidth, lineColor, frequencyRange
   }
 }
 
-function draw() {
+export function draw(dataA, dataB) {
   analyser.getByteFrequencyData(dataArray)
   
   canvasCtx[0].clearRect(0, 0, canvasWidth, canvasHeight)
@@ -127,6 +127,12 @@ function draw() {
     let offset = 40;
     let lineWidth = 3.5
     let freq = 0.014
+    let dataArray;
+    if (i == 0)
+      dataArray = dataA
+    else 
+      dataArray = dataB
+
 
     for (let o = 0; o < frequencyAreas.length; o++){
       let tmpFreq = (o+1) * freq
@@ -140,13 +146,13 @@ function draw() {
 
   x += 1;
 
-  requestAnimationFrame(draw);
+  //requestAnimationFrame(draw);
 }
 
 initDrawFrequency()
 initColors()
 
-draw()
+//draw()
 
 // Draw Audio from AudioA on canvasCntx[0] -> will be called each frame
 // ich hab die Methode "draw" in drawAudioA umbenannt und anstatt dem dataArray wird der drawFunction 
@@ -163,7 +169,6 @@ export function drawAudioA(audioData) {
 
   canvasCtx[0].clearRect(0, 0, canvasWidth, canvasHeight);
   canvasCtx[1].clearRect(0, 0, canvasWidth, canvasHeight);
-
   for (let i = 0; i <= 14; i++) {
   }
 
@@ -177,25 +182,25 @@ export function drawAudioA(audioData) {
 
 
   //sub bass
-  drawFunction(canvasCtx[0], audioData, 3.5, subBassColor, subBassArea, subBassFrequency, 40, false)
+  drawFunction(canvasCtx[0], audioData, 3.5, subBassColor, frequencyAreas[1], 0.014, 40, false)
 
   //bass
-  drawFunction(canvasCtx[0], audioData, 3, bassColor, bassArea, bassFrequency, 35, false)
+  drawFunction(canvasCtx[0], audioData, 3, bassColor, frequencyAreas[2], 0.014, 35, false)
 
   //lowmid
-  drawFunction(canvasCtx[0], audioData, 2.5, lowerMidColor, lowerMidArea, lowerMidFrequency, 30, false)
+  drawFunction(canvasCtx[0], audioData, 2.5, lowerMidColor, frequencyAreas[3], 0.014, 30, false)
 
   //mid
-  drawFunction(canvasCtx[0], audioData, 2, midColor, midArea, midFrequency, 25, false)
+  drawFunction(canvasCtx[0], audioData, 2, midColor, frequencyAreas[4], 0.014, 25, false)
 
   //highmid
-  drawFunction(canvasCtx[0], audioData, 1.5, higherMidColor, higherMidArea, higherMidFrequency, 20, false)
+  drawFunction(canvasCtx[0], audioData, 1.5, higherMidColor, frequencyAreas[5], 0.014, 20, false)
 
   //presence
-  drawFunction(canvasCtx[0], audioData, 1, presenceColor, presenceArea, presenceFrequency, 15, false)
+  drawFunction(canvasCtx[0], audioData, 1, presenceColor, frequencyAreas[6], 0.014, 15, false)
 
   //brilliance
-  drawFunction(canvasCtx[0], audioData, 0.5, brillianceColor, brillianceArea, brillianceFrequency, 10, false)
+  drawFunction(canvasCtx[0], audioData, 0.5, brillianceColor, frequencyAreas[7], 0.014, 10, false)
 
 
 
