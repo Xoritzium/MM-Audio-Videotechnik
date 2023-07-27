@@ -59,7 +59,7 @@ const frequencySpectrum = []
 frequencySpectrum.push([0,16]) 
 frequencySpectrum.push([17,60])
 frequencySpectrum.push([61,250])
-frequencySpectrum.p* bufferLengthush([250, 500])
+frequencySpectrum.push([250, 500])
 frequencySpectrum.push([500, 2000])
 frequencySpectrum.push([2000, 4000])
 frequencySpectrum.push([4000, 6000])
@@ -110,7 +110,7 @@ function drawFunction(canvasCtx, dataArray, lineWidth, lineColor, frequencyRange
 
 // function which loops through the canvas contexts and frequency areas to draw the sin functions
 export function draw(dataA, dataB) {
-  analyser.getByteFrequencyData(dataArray)
+
   
   canvasCtx[0].clearRect(0, 0, canvasWidth, canvasHeight)
   canvasCtx[1].clearRect(0, 0, canvasWidth, canvasHeight)
@@ -130,7 +130,6 @@ export function draw(dataA, dataB) {
       dataArray = dataA
     else 
       dataArray = dataB
-
 
     for (let o = 0; o < frequencyAreas.length; o++){
       let tmpFreq = (o+1) * freq
